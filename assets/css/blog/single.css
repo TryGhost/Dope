@@ -32,6 +32,10 @@
     font-size: 30px;
 }
 
+.single-post .post-meta {
+    margin-top: 20px;
+}
+
 .single-post .post-media {
     margin-bottom: 45px;
     border-radius: 0;
@@ -53,7 +57,6 @@
 }
 
 .single-post .post-media .post-meta {
-    margin-top: 20px;
     margin-bottom: -20px;
     opacity: 0.7;
 }
