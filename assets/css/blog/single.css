@@ -41,8 +41,6 @@
     position: relative;
     z-index: 20;
     margin: auto;
-    padding: 30px;
-    max-width: 550px;
 }
 
 .single-post .post-media .post-title,

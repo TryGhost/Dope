@@ -18,10 +18,8 @@
             <div class="tag-feed owl" data-count="{{pagination.total}}">
                 {{#foreach tags}}
                     <div class="tag u-placeholder">
-                        <img class="tag-image lazyload u-object-fit"
-                            data-src="{{#if feature_image}}{{img_url feature_image}}{{else}}{{@site.cover_image}}{{/if}}"
-                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                            alt="{{name}}">
+                        <img class="tag-image u-object-fit" src="{{#if feature_image}}{{img_url feature_image}}{{else}}{{@site.cover_image}}{{/if}}" alt="{{name}}">
+
                         <div class="tag-content">
                             <h2 class="tag-name">{{name}}</h2>
                             {{#if description}}
@@ -30,6 +28,7 @@
                                 </div>
                             {{/if}}
                         </div>
+
                         <a class="u-permalink" href="{{url}}"></a>
                     </div>
                 {{/foreach}}

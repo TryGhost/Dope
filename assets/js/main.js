@@ -4,24 +4,10 @@ var body = $('body');
 $(function () {
     'use strict';
     tagFeed();
+    parallax();
     loadMore();
     video();
-    author();
     offCanvas();
-    facebook();
-});
-
-document.addEventListener('lazyloaded', function (e) {
-    'use strict';
-    var options = {
-        disableParallax: /iPad|iPhone|iPod|Android/,
-        disableVideo: /iPad|iPhone|iPod|Android/,
-        speed: 0.1,
-    };
-
-    if ($(e.target).closest('.post').hasClass('single-post')) {
-        $(e.target).parent().jarallax(options).addClass('initialized');
-    }
 });
 
 var lastScrollY = 0;
@@ -79,6 +65,21 @@ function tagFeed() {
     });
 }
 
+function parallax() {
+    var image = $('.jarallax-img');
+    if (!image) return;
+
+    var options = {
+        disableParallax: /iPad|iPhone|iPod|Android/,
+        disableVideo: /iPad|iPhone|iPod|Android/,
+        speed: 0.1,
+    };
+
+    image.imagesLoaded(function () {
+        image.parent().jarallax(options).addClass('initialized');
+    });
+}
+
 function loadMore() {
     'use strict';
     var wrapper = $('.post-feed');
@@ -108,13 +109,6 @@ function loadMore() {
 function video() {
     'use strict';
     $('.post-content').fitVids();
-}
-
-function author() {
-    'use strict';
-    $('.author-name').on('click', function () {
-        $(this).next('.author-social').toggleClass('enabled');
-    });
 }
 
 function offCanvas() {
@@ -148,13 +142,6 @@ function offCanvas() {
             dimmer('close', 'medium');
         }
     });
-}
-
-function facebook() {
-    'use strict';
-    if ($('.fb-page').attr('data-href') == '') {
-        $('.widget-facebook').remove();
-    }
 }
 
 function dimmer(action, speed) {
