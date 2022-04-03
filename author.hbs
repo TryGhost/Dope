@@ -7,11 +7,13 @@
                 <h1 class="term-name">{{name}}</h1>
             </section>
         {{/author}}
+
         <div class="post-feed">
             {{#foreach posts}}
                 {{> "loop"}}
             {{/foreach}}
         </div>
+
         {{pagination}}
     </main>
 </div>

@@ -3,118 +3,128 @@
 <div class="content-area">
     <main class="site-main">
         {{#post}}
-            <article class="{{post_class}} single-post">
-                {{#if feature_image}}
-                    <figure class="post-media">
-                        <div class="u-placeholder">
-                            <img
-                                class="post-image jarallax-img u-object-fit"
-                                srcset="{{img_url feature_image size="s"}} 300w,
-                                        {{img_url feature_image size="m"}} 750w,
-                                        {{img_url feature_image size="l"}} 960w,
-                                        {{img_url feature_image size="xl"}} 1140w,
-                                        {{img_url feature_image size="xxl"}} 1920w"
-                                sizes="100vw"
-                                src="{{img_url feature_image size="xxl"}}"
-                                alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
-                                loading="lazy"
-                            >
 
-                            <header class="post-header kg-canvas">
-                                {{#primary_tag}}
-                                    <div class="post-tags">
-                                        <a class="post-tag post-tag-{{slug}}" href="{{url}}" title="{{name}}">{{name}}</a>
-                                    </div>
-                                {{/primary_tag}}
+        <article class="{{post_class}} single-post">
+            {{#if feature_image}}
+                <figure class="post-media">
+                    <div class="u-placeholder">
+                        <img
+                            class="post-image jarallax-img u-object-fit"
+                            srcset="{{img_url feature_image size="s"}} 300w,
+                                    {{img_url feature_image size="m"}} 750w,
+                                    {{img_url feature_image size="l"}} 960w,
+                                    {{img_url feature_image size="xl"}} 1140w,
+                                    {{img_url feature_image size="xxl"}} 1920w"
+                            sizes="100vw"
+                            src="{{img_url feature_image size="xxl"}}"
+                            alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+                            loading="lazy"
+                        >
 
-                                <h1 class="post-title">{{title}}</h1>
-
-                                <div class="post-meta">
-                                    <span class="post-meta-item post-meta-date">
-                                        <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at}}</time>
-                                    </span>
-                                    <span class="post-meta-item post-meta-length">{{reading_time}}</span>
-                                    {{#if featured}}
-                                        <span class="post-meta-featured">
-                                            <i class="icon icon-star"></i>
-                                        </span>
-                                    {{/if}}
+                        <header class="post-header kg-canvas">
+                            {{#primary_tag}}
+                                <div class="post-tags">
+                                    <a class="post-tag post-tag-{{slug}}" href="{{url}}" title="{{name}}">{{name}}</a>
                                 </div>
-                            </header>
-                        </div>
+                            {{/primary_tag}}
 
-                        {{#if feature_image_caption}}
-                            <figcaption>{{feature_image_caption}}</figcaption>
-                        {{/if}}
-                    </figure>
-                {{else}}
-                    <header class="post-header kg-canvas">
-                        {{#primary_tag}}
-                            <div class="post-tags">
-                                <a class="post-tag post-tag-{{slug}}" href="{{url}}" title="{{name}}">{{name}}</a>
-                            </div>
-                        {{/primary_tag}}
+                            <h1 class="post-title">{{title}}</h1>
 
-                        <h1 class="post-title">{{title}}</h1>
-
-                        <div class="post-meta">
-                            <span class="post-meta-item post-meta-date">
-                                <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at}}</time>
-                            </span>
-                            <span class="post-meta-item post-meta-length">{{reading_time}}</span>
-                            {{#if featured}}
-                                <span class="post-meta-featured">
-                                    <i class="icon icon-star"></i>
+                            <div class="post-meta">
+                                <span class="post-meta-item post-meta-date">
+                                    <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at}}</time>
                                 </span>
-                            {{/if}}
-                        </div>
-                    </header>
-                {{/if}}
-
-                <div class="post-content gh-content kg-canvas">
-                    {{content}}
-                </div>
-
-                {{#if @custom.show_share_links}}
-                    <div class="share container medium">
-                        <a class="share-item share-facebook" href="https://www.facebook.com/sharer.php?u={{url absolute="true"}}" target="_blank">
-                            <i class="icon icon-facebook"></i>
-                            <span class="share-label">Share</span>
-                        </a>
-                        <a class="share-item share-twitter" href="https://twitter.com/intent/tweet?url={{url absolute="true"}}&text={{encode title}}" target="_blank">
-                            <i class="icon icon-twitter"></i>
-                            <span class="share-label">Tweet</span>
-                        </a>
-                        <a class="share-item share-pinterest" href="https://pinterest.com/pin/create/button/?url={{url absolute="true"}}&media={{img_url feature_image}}&description={{encode title}}" target="_blank">
-                            <i class="icon icon-pinterest"></i>
-                            <span class="share-label">Pin</span>
-                        </a>
+                                <span class="post-meta-item post-meta-length">{{reading_time}}</span>
+                                {{#if featured}}
+                                    <span class="post-meta-featured">
+                                        <i class="icon icon-star"></i>
+                                    </span>
+                                {{/if}}
+                            </div>
+                        </header>
                     </div>
-                {{/if}}
-            </article>
 
-            {{#if @custom.show_author}}
-                {{#foreach authors}}
-                    <section class="author container medium">
-                        {{#if profile_image}}
-                            <div class="author-image-placeholder u-placeholder">
-                                <img class="author-image u-object-fit" src="{{img_url profile_image size="xs"}}" alt="{{name}}" loading="lazy">
+                    {{#if feature_image_caption}}
+                        <figcaption>{{feature_image_caption}}</figcaption>
+                    {{/if}}
+                </figure>
+            {{else}}
+                <header class="post-header kg-canvas">
+                    {{#primary_tag}}
+                        <div class="post-tags">
+                            <a class="post-tag post-tag-{{slug}}" href="{{url}}" title="{{name}}">{{name}}</a>
+                        </div>
+                    {{/primary_tag}}
+
+                    <h1 class="post-title">{{title}}</h1>
+
+                    <div class="post-meta">
+                        <span class="post-meta-item post-meta-date">
+                            <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at}}</time>
+                        </span>
+                        <span class="post-meta-item post-meta-length">{{reading_time}}</span>
+                        {{#if featured}}
+                            <span class="post-meta-featured">
+                                <i class="icon icon-star"></i>
+                            </span>
+                        {{/if}}
+                    </div>
+                </header>
+            {{/if}}
+
+            <div class="post-content gh-content kg-canvas">
+                {{content}}
+            </div>
+
+            {{#if @custom.show_share_links}}
+                <div class="share container medium">
+                    <a class="share-item share-facebook" href="https://www.facebook.com/sharer.php?u={{url absolute="true"}}" target="_blank">
+                        <i class="icon icon-facebook"></i>
+                        <span class="share-label">Share</span>
+                    </a>
+                    <a class="share-item share-twitter" href="https://twitter.com/intent/tweet?url={{url absolute="true"}}&text={{encode title}}" target="_blank">
+                        <i class="icon icon-twitter"></i>
+                        <span class="share-label">Tweet</span>
+                    </a>
+                    <a class="share-item share-pinterest" href="https://pinterest.com/pin/create/button/?url={{url absolute="true"}}&media={{img_url feature_image}}&description={{encode title}}" target="_blank">
+                        <i class="icon icon-pinterest"></i>
+                        <span class="share-label">Pin</span>
+                    </a>
+                </div>
+            {{/if}}
+        </article>
+
+        {{#if @custom.show_author}}
+            {{#foreach authors}}
+                <section class="author container medium">
+                    {{#if profile_image}}
+                        <div class="author-image-placeholder u-placeholder">
+                            <img class="author-image u-object-fit" src="{{img_url profile_image size="xs"}}" alt="{{name}}" loading="lazy">
+                        </div>
+                    {{/if}}
+                    <div class="author-wrapper">
+                        <h4 class="author-name">
+                            <a href="{{url}}">{{name}}</a>
+                        </h4>
+                        {{#if location}}
+                            <div class="author-location">
+                                <i class="icon icon-map-marker"></i> {{location}}
                             </div>
                         {{/if}}
-                        <div class="author-wrapper">
-                            <h4 class="author-name">
-                                <a href="{{url}}">{{name}}</a>
-                            </h4>
-                            {{#if location}}
-                                <div class="author-location">
-                                    <i class="icon icon-map-marker"></i> {{location}}
-                                </div>
-                            {{/if}}
-                            <div class="author-bio">{{bio}}</div>
-                        </div>
-                    </section>
-                {{/foreach}}
-            {{/if}}
+                        <div class="author-bio">{{bio}}</div>
+                    </div>
+                </section>
+            {{/foreach}}
+        {{/if}}
+
+        {{!-- <div class="comment-container">
+            <div class="container">
+                <div class="comment container medium">
+                    If you want to embed comments, this is a good place to do it!
+                </div>
+            </div>
+        </div> --}}
+
         {{/post}}
 
         {{#if @custom.show_related_posts}}
@@ -130,13 +140,5 @@
                 {{/if}}
             {{/get}}
         {{/if}}
-
-        {{!-- <div class="comment-container">
-            <div class="container">
-                <div class="comment container medium">
-                    If you want to embed comments, this is a good place to do it!
-                </div>
-            </div>
-        </div> --}}
     </main>
 </div>
