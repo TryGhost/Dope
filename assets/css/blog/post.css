@@ -27,7 +27,13 @@
     position: relative;
     top: 1px;
     padding-left: 5px;
+    vertical-align: middle;
     color: var(--yellow-color);
+}
+
+.post-meta-featured svg {
+    width: 14px;
+    height: 14px;
 }
 
 .post-title {
@@ -69,6 +75,9 @@
 }
 
 .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     margin-left: -2px;
     color: var(--primary-color);
     font-weight: 700;

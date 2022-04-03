@@ -47,17 +47,14 @@
             <div class="footer-social">
                 {{#if @site.facebook}}
                     <a class="footer-social-item" href="{{facebook_url @site.facebook}}" target="_blank" rel="noopener noreferrer">
-                        <i class="icon icon-facebook"></i>
+                        {{> "icons/facebook"}}
                     </a>
                 {{/if}}
                 {{#if @site.twitter}}
                     <a class="footer-social-item" href="{{twitter_url @site.twitter}}" target="_blank" rel="noopener noreferrer">
-                        <i class="icon icon-twitter"></i>
+                        {{> "icons/twitter"}}
                     </a>
                 {{/if}}
-                <a class="footer-social-item footer-social-item-rss" href="https://feedly.com/i/subscription/feed/{{@site.url}}/rss/" target="_blank" rel="noopener noreferrer">
-                    <i class="icon icon-rss"></i>
-                </a>
             </div>
         </footer>
     </div>
@@ -66,7 +63,7 @@
 
     <aside class="off-canvas">
         <div class="canvas-close">
-            <i class="canvas-icon icon icon-window-close"></i>
+            {{> "icons/close"}}
         </div>
 
         {{#if @site.navigation}}
@@ -88,7 +85,7 @@
                                     <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at}}</time>
                                 </span>
                                 {{#if featured}}
-                                    <span class="post-meta-featured"><i class="icon icon-star"></i></span>
+                                    <span class="post-meta-featured">{{> "icons/star"}}</span>
                                 {{/if}}
                             </div>
 

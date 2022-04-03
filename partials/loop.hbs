@@ -35,7 +35,7 @@
                 <span class="post-meta-item post-meta-length">{{reading_time}}</span>
                 {{#if featured}}
                     <span class="post-meta-featured">
-                        <i class="icon icon-star"></i>
+                        {{> "icons/star"}}
                     </span>
                 {{/if}}
             </div>
@@ -61,9 +61,9 @@
                     {{/if}}
                 {{/foreach}}
             </div>
-            <a class="read-more button-arrow-right" href="{{url}}">
+            <a class="read-more" href="{{url}}">
                 Read More
-                <i class="button-arrow-icon icon icon-arrow-right"></i>
+                {{> "icons/arrow-right"}}
             </a>
         </footer>
     </div>

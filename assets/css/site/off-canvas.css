@@ -31,6 +31,11 @@
     color: var(--secondary-text-color);
 }
 
+.canvas-close svg {
+    width: 24px;
+    height: 24px;
+}
+
 html:not(.canvas-visible) .off-canvas {
     visibility: hidden;
 }
