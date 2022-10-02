@@ -55,15 +55,17 @@
         {{/if}}
 
         <footer class="post-footer">
-            <div class="post-author">
-                {{#foreach authors}}
-                    {{#if profile_image}}
-                        <a class="post-author-link" href="{{url}}">
-                            <img class="post-author-image" src="{{img_url profile_image size="xs"}}" alt="{{name}}">
-                        </a>
-                    {{/if}}
-                {{/foreach}}
-            </div>
+            {{#if @custom.show_author}}
+                <div class="post-author">
+                    {{#foreach authors}}
+                        {{#if profile_image}}
+                            <a class="post-author-link" href="{{url}}">
+                                <img class="post-author-image" src="{{img_url profile_image size="xs"}}" alt="{{name}}">
+                            </a>
+                        {{/if}}
+                    {{/foreach}}
+                </div>
+            {{/if}}
             <a class="read-more" href="{{url}}">
                 {{t "Read More"}}
                 {{> "icons/arrow-right"}}
