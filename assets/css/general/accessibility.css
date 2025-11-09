@@ -147,7 +147,7 @@ li a {
 }
 
 .content-warning::before {
-    content: "⚠️ Content Warning: ";
+    content: "⚠ Content Warning: ";
     font-weight: var(--font-weight-bold);
 }
 
@@ -329,7 +329,7 @@ li a {
 }
 
 .error-message::before {
-    content: "⚠️ ";
+    content: "⚠ ";
 }
 
 /* ===== Dark Mode Images ===== */

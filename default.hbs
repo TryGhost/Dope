@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{@site.locale}}" data-theme="dark">
+<html lang="{{@site.locale}}"{{#match @custom.color_scheme "=" "Dark mode"}} data-theme="dark"{{/match}}{{#match @custom.color_scheme "=" "Light mode"}} data-theme="light"{{/match}}>
 
 <head>
     <meta charset="utf-8">
