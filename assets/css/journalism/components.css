@@ -136,15 +136,15 @@
 }
 
 .article-reading-time::before {
-    content: "📖 ";
+    content: " ";
 }
 
 .article-published::before {
-    content: "📅 ";
+    content: " ";
 }
 
 .article-updated::before {
-    content: "🔄 ";
+    content: " ";
 }
 
 /* ===== Pull Quotes ===== */
@@ -226,19 +226,19 @@
 }
 
 .callout-info .callout-title::before {
-    content: "ℹ️";
+    content: "ℹ";
 }
 
 .callout-warning .callout-title::before {
-    content: "⚠️";
+    content: "⚠";
 }
 
 .callout-important .callout-title::before {
-    content: "❗";
+    content: "!";
 }
 
 .callout-tip .callout-title::before {
-    content: "💡";
+    content: "*";
 }
 
 /* ===== Source Citations ===== */
@@ -529,9 +529,7 @@
     color: var(--color-text-tertiary);
 }
 
-.whistleblower-cta-security::before {
-    content: "🔒 ";
-}
+/* Whistleblower security icon removed - CSS parser compatibility */
 
 /* ===== Series Navigation ===== */
 

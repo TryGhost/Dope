@@ -159,7 +159,7 @@
 }
 
 .post-content blockquote cite::before {
-    content: '— ';
+    content: '\2014 ';
 }
 
 /* ===== Image Captions and Credits ===== */
@@ -321,7 +321,7 @@
 }
 
 .key-findings-title::before {
-    content: '🔍';
+    content: '●';
     font-size: var(--text-3xl);
 }
 
@@ -339,7 +339,7 @@
 }
 
 .key-findings li::before {
-    content: '▸';
+    content: '\25B8';
     position: absolute;
     left: 0;
     color: var(--color-investigation);
@@ -365,7 +365,7 @@
 }
 
 .methodology-title::before {
-    content: '📊 ';
+    content: '▪ ';
 }
 
 /* ===== Embed Responsiveness ===== */
@@ -460,7 +460,7 @@
 }
 
 .reading-estimate::before {
-    content: '⏱️';
+    content: '⏱';
 }
 
 /* ===== Spoiler/Sensitive Content Toggles ===== */

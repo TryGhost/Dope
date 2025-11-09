@@ -85,6 +85,16 @@
             </header>
         {{/if}}
 
+        {{!-- Table of contents (if enabled) --}}
+        {{#if @custom.enable_table_of_contents}}
+        <aside class="toc gh-canvas" role="navigation" aria-label="Table of contents">
+            <div class="toc-title">Table of Contents</div>
+            <nav class="toc-list" id="toc-container">
+                {{!-- TOC will be populated by JavaScript based on article headings --}}
+            </nav>
+        </aside>
+        {{/if}}
+
         <div class="post-content gh-content gh-canvas reading-content" itemprop="articleBody">
             {{content}}
 
@@ -127,7 +137,7 @@
                                 <a href="{{website}}" target="_blank" rel="noopener" itemprop="url">Website</a>
                             {{/if}}
                             {{#if twitter}}
-                                <a href="{{twitter_url}}" target="_blank" rel="noopener">Twitter</a>
+                                <a href="{{twitter}}" target="_blank" rel="noopener">Twitter</a>
                             {{/if}}
                             <a href="{{url}}">More by {{name}}</a>
                         </div>

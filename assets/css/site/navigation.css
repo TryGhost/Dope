@@ -358,7 +358,7 @@
 }
 
 .breadcrumb-separator::before {
-    content: '›';
+    content: '\203A';
     font-weight: var(--font-weight-bold);
 }
 
