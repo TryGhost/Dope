@@ -1,0 +1,500 @@
+/* ==========================================================================
+   Greymuzzle Longform Reading Features
+   Enhanced reading experience for investigative journalism
+   ========================================================================== */
+
+/* ===== Table of Contents (Sticky Sidebar) ===== */
+
+.longform-layout {
+    display: grid;
+    grid-template-columns: 1fr min(var(--content-width-reading), 100%) 250px 1fr;
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+}
+
+.longform-content {
+    grid-column: 2;
+}
+
+.longform-sidebar {
+    grid-column: 3;
+    position: relative;
+}
+
+@media (max-width: 1200px) {
+    .longform-layout {
+        grid-template-columns: 1fr min(var(--content-width-reading), 100%) 1fr;
+    }
+
+    .longform-sidebar {
+        display: none;
+    }
+}
+
+/* Mobile TOC - appears at top on small screens */
+.toc-mobile {
+    display: none;
+    margin-bottom: var(--space-8);
+}
+
+@media (max-width: 1200px) {
+    .toc-mobile {
+        display: block;
+    }
+}
+
+/* TOC Scroll Spy - highlight current section */
+.toc-list a.active {
+    color: var(--brand-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ===== Chapter/Section Dividers ===== */
+
+.section-divider {
+    margin: var(--space-16) 0;
+    text-align: center;
+    position: relative;
+}
+
+.section-divider::before,
+.section-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--color-border-primary), transparent);
+}
+
+.section-divider::before {
+    left: 0;
+}
+
+.section-divider::after {
+    right: 0;
+}
+
+.section-divider-icon {
+    display: inline-block;
+    font-size: var(--text-2xl);
+    padding: 0 var(--space-6);
+    background: var(--color-bg-primary);
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== Drop Caps for Feature Stories ===== */
+
+.feature-story .post-content > p:first-of-type::first-letter,
+.longform-article .post-content > p:first-of-type::first-letter {
+    float: left;
+    font-size: 4.5em;
+    line-height: 0.85;
+    margin: 0.1em 0.1em 0 0;
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    color: var(--brand-primary);
+}
+
+/* ===== Subheadings with Article Structure ===== */
+
+.post-content h2 {
+    margin-top: var(--space-16);
+    margin-bottom: var(--space-6);
+    padding-top: var(--space-8);
+    border-top: 3px solid var(--brand-primary);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-tight);
+    scroll-margin-top: 100px; /* For smooth scroll with fixed header */
+}
+
+.post-content h3 {
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    scroll-margin-top: 100px;
+}
+
+.post-content h4 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    scroll-margin-top: 100px;
+}
+
+/* ===== Enhanced Blockquotes for Interviews ===== */
+
+.post-content blockquote {
+    margin: var(--space-8) 0;
+    padding: var(--space-6) var(--space-8);
+    border-left: 4px solid var(--brand-secondary);
+    background: var(--color-bg-secondary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-style: italic;
+    color: var(--color-text-primary);
+}
+
+.post-content blockquote p:first-child::before {
+    content: '"';
+    font-size: 2em;
+    color: var(--brand-secondary);
+    margin-right: 0.1em;
+    line-height: 0;
+    vertical-align: -0.4em;
+}
+
+.post-content blockquote cite {
+    display: block;
+    margin-top: var(--space-4);
+    font-style: normal;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.post-content blockquote cite::before {
+    content: '— ';
+}
+
+/* ===== Image Captions and Credits ===== */
+
+.post-content figure {
+    margin: var(--space-12) 0;
+}
+
+.post-content figcaption {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    font-style: italic;
+    line-height: var(--leading-relaxed);
+}
+
+.image-credit {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    font-style: normal;
+}
+
+.image-credit::before {
+    content: 'Photo: ';
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ===== Sidenotes and Margin Notes ===== */
+
+.sidenote {
+    float: right;
+    clear: right;
+    width: 40%;
+    margin: var(--space-4) 0 var(--space-4) var(--space-6);
+    padding: var(--space-4);
+    background: var(--color-bg-secondary);
+    border-left: 3px solid var(--brand-tertiary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+}
+
+.sidenote-title {
+    font-weight: var(--font-weight-bold);
+    color: var(--brand-tertiary);
+    margin-bottom: var(--space-2);
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+    .sidenote {
+        float: none;
+        width: 100%;
+        margin: var(--space-6) 0;
+    }
+}
+
+/* ===== Timeline Component for Chronological Stories ===== */
+
+.timeline {
+    position: relative;
+    padding: var(--space-8) 0;
+    margin: var(--space-12) 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border-primary);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 80px;
+    margin-bottom: var(--space-8);
+}
+
+.timeline-date {
+    position: absolute;
+    left: 0;
+    width: 60px;
+    text-align: right;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--brand-primary);
+    line-height: var(--leading-tight);
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 24px;
+    width: 14px;
+    height: 14px;
+    background: var(--brand-primary);
+    border: 3px solid var(--color-bg-primary);
+    border-radius: var(--radius-full);
+    z-index: 1;
+}
+
+.timeline-content {
+    background: var(--color-bg-secondary);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--brand-primary);
+}
+
+.timeline-title {
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-3);
+    color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 15px;
+    }
+
+    .timeline-item {
+        padding-left: 50px;
+    }
+
+    .timeline-date {
+        position: static;
+        width: auto;
+        text-align: left;
+        margin-bottom: var(--space-2);
+    }
+
+    .timeline-marker {
+        left: 9px;
+    }
+}
+
+/* ===== Key Findings Box ===== */
+
+.key-findings {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(124, 158, 189, 0.1) 100%);
+    border: 2px solid var(--color-investigation);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    margin: var(--space-12) 0;
+}
+
+.key-findings-title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-investigation);
+    margin-bottom: var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.key-findings-title::before {
+    content: '🔍';
+    font-size: var(--text-3xl);
+}
+
+.key-findings ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.key-findings li {
+    padding-left: var(--space-8);
+    margin-bottom: var(--space-4);
+    position: relative;
+    line-height: var(--leading-relaxed);
+}
+
+.key-findings li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-investigation);
+    font-weight: var(--font-weight-bold);
+}
+
+/* ===== Methodology Box ===== */
+
+.methodology {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin: var(--space-12) 0;
+    font-size: var(--text-sm);
+}
+
+.methodology-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-primary);
+}
+
+.methodology-title::before {
+    content: '📊 ';
+}
+
+/* ===== Embed Responsiveness ===== */
+
+.post-content iframe,
+.post-content embed,
+.post-content object {
+    max-width: 100%;
+}
+
+/* Responsive video embeds */
+.video-embed {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    margin: var(--space-8) 0;
+}
+
+.video-embed iframe,
+.video-embed object,
+.video-embed embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== Print-Optimized Styling ===== */
+
+@media print {
+    .toc,
+    .reading-progress,
+    .whistleblower-cta,
+    .related-posts {
+        display: none !important;
+    }
+
+    .longform-layout {
+        display: block;
+    }
+
+    .post-content h2 {
+        page-break-after: avoid;
+        border-top: 2px solid black;
+    }
+
+    .key-findings {
+        border: 2px solid black;
+        background: white;
+    }
+
+    .pullquote {
+        border-left: 4px solid black;
+        background: #f5f5f5;
+    }
+}
+
+/* ===== Scroll-Linked Animations (Performance-Conscious) ===== */
+
+@media (prefers-reduced-motion: no-preference) {
+    .post-content > * {
+        animation: fadeInUp 0.6s ease-out;
+        animation-fill-mode: both;
+    }
+
+    .post-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .post-content > *:nth-child(2) { animation-delay: 0.2s; }
+    .post-content > *:nth-child(3) { animation-delay: 0.3s; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Reading Estimate Updates ===== */
+
+.reading-estimate {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+}
+
+.reading-estimate::before {
+    content: '⏱️';
+}
+
+/* ===== Spoiler/Sensitive Content Toggles ===== */
+
+.spoiler-content {
+    position: relative;
+    background: var(--color-bg-secondary);
+    padding: var(--space-6);
+    margin: var(--space-6) 0;
+    border-radius: var(--radius-md);
+    border: 2px dashed var(--color-border-primary);
+}
+
+.spoiler-content[data-hidden="true"] .spoiler-text {
+    filter: blur(10px);
+    user-select: none;
+    pointer-events: none;
+}
+
+.spoiler-toggle {
+    display: block;
+    width: 100%;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-warning);
+    color: var(--color-bg-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    margin-bottom: var(--space-4);
+    transition: all var(--transition-base);
+}
+
+.spoiler-toggle:hover {
+    background: var(--color-investigation);
+    transform: translateY(-2px);
+}
