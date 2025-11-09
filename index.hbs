@@ -1,29 +1,249 @@
 {{!< default}}
 
 <div class="content-area">
-<main class="site-main">
+<main class="site-main gh-inner">
 
-    {{#get "tags" limit="100"}}
-    <div class="tag-feed owl" data-count="{{pagination.total}}">
-
-        {{#foreach tags}}
-        <div class="tag u-placeholder">
-            <img class="tag-image u-object-fit" src="{{#if feature_image}}{{img_url feature_image}}{{else}}{{@site.cover_image}}{{/if}}" alt="{{name}}">
-            <div class="tag-content">
-                <h2 class="tag-name">{{name}}</h2>
-
-                {{#if description}}
-                    <div class="tag-description">
-                        {{description}}
-                    </div>
+    {{!-- Featured Hero Story --}}
+    {{#get "posts" limit="1" filter="featured:true"}}
+        {{#foreach posts}}
+        <article class="featured-hero">
+            {{#if feature_image}}
+                <img src="{{feature_image}}" alt="{{title}}" class="featured-hero-image" loading="eager">
+            {{/if}}
+            <div class="featured-hero-overlay">
+                {{#primary_tag}}
+                    <span class="featured-hero-category category-{{slug}}">{{name}}</span>
+                {{/primary_tag}}
+                <h1 class="featured-hero-title">
+                    <a href="{{url}}">{{title}}</a>
+                </h1>
+                {{#if custom_excerpt}}
+                    <p class="featured-hero-excerpt">{{custom_excerpt}}</p>
+                {{else}}
+                    <p class="featured-hero-excerpt">{{excerpt words="30"}}</p>
                 {{/if}}
+                <div class="featured-hero-meta">
+                    <span>{{primary_author.name}}</span>
+                    <span>•</span>
+                    <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
+                    <span>•</span>
+                    <span>{{reading_time}}</span>
+                </div>
             </div>
-            <a class="u-permalink" href="{{url}}"></a>
-        </div>
+        </article>
         {{/foreach}}
-
-    </div>
     {{/get}}
+
+    {{!-- Category Quick Navigation --}}
+    <nav class="category-nav" aria-label="Content categories">
+        <a href="/tag/investigation/" class="category-pill" data-category="investigation">🔍 Investigations</a>
+        <a href="/tag/breaking/" class="category-pill" data-category="breaking">🚨 Breaking</a>
+        <a href="/tag/profile/" class="category-pill" data-category="profile">👤 Profiles</a>
+        <a href="/tag/analysis/" class="category-pill" data-category="analysis">📊 Analysis</a>
+        <a href="/tag/community/" class="category-pill">🎉 Community</a>
+        <a href="/tag/culture/" class="category-pill">🎨 Culture</a>
+    </nav>
+
+    {{!-- Top Stories Section --}}
+    <section class="top-stories">
+        <div class="top-story-main">
+            {{#get "posts" limit="1" filter="tag:investigation" include="tags,authors"}}
+                {{#foreach posts}}
+                    {{#if feature_image}}
+                        <img src="{{feature_image}}" alt="{{title}}" class="top-story-main-image">
+                    {{/if}}
+                    <div class="top-story-main-content">
+                        {{#primary_tag}}
+                            <span class="article-badge article-badge-{{slug}}">{{name}}</span>
+                        {{/primary_tag}}
+                        <h2 class="story-card-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h2>
+                        <p class="story-card-excerpt">{{excerpt words="25"}}</p>
+                        <div class="story-card-meta">
+                            <span>{{primary_author.name}}</span>
+                            <span>{{date published_at format="DD MMM"}}</span>
+                        </div>
+                    </div>
+                {{/foreach}}
+            {{/get}}
+        </div>
+
+        <aside class="top-story-sidebar">
+            {{#get "posts" limit="5" filter="featured:false" include="tags,authors"}}
+                {{#foreach posts}}
+                <article class="top-story-item">
+                    <div class="top-story-number">{{@number}}</div>
+                    <div class="top-story-item-content">
+                        <h3 class="top-story-item-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h3>
+                        <div class="top-story-item-meta">
+                            {{date published_at format="DD MMM"}} • {{reading_time}}
+                        </div>
+                    </div>
+                </article>
+                {{/foreach}}
+            {{/get}}
+        </aside>
+    </section>
+
+    {{!-- Latest Investigations --}}
+    <section>
+        <header class="section-header">
+            <h2 class="section-title">
+                <span class="section-icon">🔍</span>
+                Latest Investigations
+            </h2>
+            <a href="/tag/investigation/" class="section-link">View all</a>
+        </header>
+
+        <div class="story-grid">
+            {{#get "posts" limit="6" filter="tag:investigation" include="tags,authors"}}
+                {{#foreach posts}}
+                <article class="story-card">
+                    {{#if feature_image}}
+                        <img src="{{feature_image}}" alt="{{title}}" class="story-card-image" loading="lazy">
+                    {{/if}}
+                    <div class="story-card-content">
+                        <span class="story-card-category category-investigation">Investigation</span>
+                        <h3 class="story-card-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h3>
+                        <p class="story-card-excerpt">{{excerpt words="20"}}</p>
+                        <div class="story-card-meta">
+                            <span>{{primary_author.name}}</span>
+                            <span>{{date published_at timeago="true"}}</span>
+                        </div>
+                    </div>
+                </article>
+                {{/foreach}}
+            {{/get}}
+        </div>
+    </section>
+
+    {{!-- Breaking & Updates --}}
+    <section>
+        <header class="section-header">
+            <h2 class="section-title">
+                <span class="section-icon">🚨</span>
+                Breaking & Updates
+            </h2>
+            <a href="/tag/breaking/" class="section-link">View all</a>
+        </header>
+
+        <div class="latest-news-list">
+            {{#get "posts" limit="8" filter="tag:[breaking,update]" include="tags,authors"}}
+                {{#foreach posts}}
+                <article class="latest-news-item">
+                    {{#if feature_image}}
+                        <img src="{{feature_image}}" alt="{{title}}" class="latest-news-image" loading="lazy">
+                    {{/if}}
+                    <div class="latest-news-content">
+                        {{#primary_tag}}
+                            <span class="article-badge article-badge-{{slug}}">{{name}}</span>
+                        {{/primary_tag}}
+                        <h3 class="latest-news-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h3>
+                        <div class="latest-news-meta">
+                            <span>{{primary_author.name}}</span>
+                            <span>•</span>
+                            <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at timeago="true"}}</time>
+                            <span>•</span>
+                            <span>{{reading_time}}</span>
+                        </div>
+                    </div>
+                </article>
+                {{/foreach}}
+            {{/get}}
+        </div>
+    </section>
+
+    {{!-- Profiles & Culture --}}
+    <section>
+        <header class="section-header">
+            <h2 class="section-title">
+                <span class="section-icon">🎨</span>
+                Profiles & Culture
+            </h2>
+            <a href="/tag/profile/" class="section-link">View all</a>
+        </header>
+
+        <div class="story-grid">
+            {{#get "posts" limit="3" filter="tag:[profile,culture]" include="tags,authors"}}
+                {{#foreach posts}}
+                <article class="story-card">
+                    {{#if feature_image}}
+                        <img src="{{feature_image}}" alt="{{title}}" class="story-card-image" loading="lazy">
+                    {{/if}}
+                    <div class="story-card-content">
+                        {{#primary_tag}}
+                            <span class="story-card-category category-{{slug}}">{{name}}</span>
+                        {{/primary_tag}}
+                        <h3 class="story-card-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h3>
+                        <p class="story-card-excerpt">{{excerpt words="20"}}</p>
+                        <div class="story-card-meta">
+                            <span>{{primary_author.name}}</span>
+                            <span>{{date published_at format="DD MMM"}}</span>
+                        </div>
+                    </div>
+                </article>
+                {{/foreach}}
+            {{/get}}
+        </div>
+    </section>
+
+    {{!-- Newsletter Signup --}}
+    <section class="newsletter-signup">
+        <h2 class="newsletter-title">Stay Informed</h2>
+        <p class="newsletter-description">
+            Get our investigative journalism delivered to your inbox. No spam, just accountability.
+        </p>
+        <div data-members-form class="newsletter-form">
+            <input type="email"
+                   data-members-email
+                   placeholder="your@email.com"
+                   class="newsletter-input"
+                   required
+                   aria-label="Email address">
+            <button type="submit" class="newsletter-button">Subscribe</button>
+        </div>
+    </section>
+
+    {{!-- All Stories --}}
+    <section>
+        <header class="section-header">
+            <h2 class="section-title">All Stories</h2>
+        </header>
+
+        <div class="story-grid">
+            {{#foreach posts}}
+            <article class="story-card">
+                {{#if feature_image}}
+                    <img src="{{feature_image}}" alt="{{title}}" class="story-card-image" loading="lazy">
+                {{/if}}
+                <div class="story-card-content">
+                    {{#primary_tag}}
+                        <span class="story-card-category category-{{slug}}">{{name}}</span>
+                    {{/primary_tag}}
+                    <h3 class="story-card-title">
+                        <a href="{{url}}">{{title}}</a>
+                    </h3>
+                    <p class="story-card-excerpt">{{excerpt words="20"}}</p>
+                    <div class="story-card-meta">
+                        <span>{{primary_author.name}}</span>
+                        <span>{{date published_at timeago="true"}}</span>
+                    </div>
+                </div>
+            </article>
+            {{/foreach}}
+        </div>
+
+        {{pagination}}
+    </section>
 
 </main>
 </div>

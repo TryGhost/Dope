@@ -5,6 +5,8 @@
 @import "general/performance.css";
 @import "journalism/components.css";
 @import "journalism/longform.css";
+@import "journalism/fact-check.css";
+@import "journalism/status-badges.css";
 @import "site/navigation.css";
 @import "site/header.css";
 @import "site/burger.css";
