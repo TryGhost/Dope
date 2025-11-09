@@ -4,19 +4,323 @@
 <main class="site-main gh-inner">
 
     {{#tag}}
-        <section class="term">
-            <div class="term-wrapper">
-                <h1 class="term-name">{{name}}</h1>
-                <div class="term-description">{{description}}</div>
+        {{!-- Category Header --}}
+        <header class="category-header">
+            {{#if feature_image}}
+                <div class="category-header-image" style="background-image: url({{feature_image}})"></div>
+            {{/if}}
+
+            <div class="category-header-content">
+                {{!-- Dynamic icon based on tag slug --}}
+                {{#match slug "investigation"}}
+                    <span class="category-header-icon">🔍</span>
+                {{/match}}
+                {{#match slug "breaking"}}
+                    <span class="category-header-icon">🚨</span>
+                {{/match}}
+                {{#match slug "profile"}}
+                    <span class="category-header-icon">👤</span>
+                {{/match}}
+                {{#match slug "analysis"}}
+                    <span class="category-header-icon">📊</span>
+                {{/match}}
+                {{#match slug "community"}}
+                    <span class="category-header-icon">🎉</span>
+                {{/match}}
+                {{#match slug "culture"}}
+                    <span class="category-header-icon">🎨</span>
+                {{/match}}
+                {{#match slug "update"}}
+                    <span class="category-header-icon">🔄</span>
+                {{/match}}
+
+                <h1 class="category-header-title">{{name}}</h1>
+
+                {{#if description}}
+                    <p class="category-header-description">{{description}}</p>
+                {{else}}
+                    {{!-- Default descriptions for journalism categories --}}
+                    {{#match slug "investigation"}}
+                        <p class="category-header-description">In-depth investigative reporting uncovering accountability issues in the furry community.</p>
+                    {{/match}}
+                    {{#match slug "breaking"}}
+                        <p class="category-header-description">Breaking news and urgent updates from across the fandom.</p>
+                    {{/match}}
+                    {{#match slug "profile"}}
+                        <p class="category-header-description">Deep dives into the lives and work of community figures.</p>
+                    {{/match}}
+                    {{#match slug "analysis"}}
+                        <p class="category-header-description">Expert analysis and commentary on fandom trends and issues.</p>
+                    {{/match}}
+                {{/if}}
+
+                <div class="category-header-meta">
+                    <span>{{plural ../pagination.total empty='No stories' singular='% story' plural='% stories'}}</span>
+                    {{#if og_description}}
+                        <span>•</span>
+                        <span>Updated {{updated_at timeago="true"}}</span>
+                    {{/if}}
+                </div>
+
+                {{!-- Special badge for investigation category --}}
+                {{#match slug "investigation"}}
+                    <div class="category-special-notice">
+                        <span class="article-badge article-badge-investigation">Investigation</span>
+                        <p>These stories represent months of research, source verification, and accountability journalism.</p>
+                    </div>
+                {{/match}}
+
+                {{!-- Whistleblower CTA for investigation category --}}
+                {{#match slug "investigation"}}
+                    {{#if @custom.whistleblower_link}}
+                        <a href="{{@custom.whistleblower_link}}" class="category-cta">
+                            <span aria-hidden="true">🔒</span> Have a tip for an investigation?
+                        </a>
+                    {{/if}}
+                {{/match}}
             </div>
-        </section>
+        </header>
     {{/tag}}
 
-    <div class="post-feed gh-feed">
-        {{#foreach posts}}
-            {{> "loop"}}
-        {{/foreach}}
-    </div>
+    {{!-- Featured Story from Category --}}
+    {{#get "posts" limit="1" filter="tag:{{tag.slug}}+featured:true" include="tags,authors"}}
+        {{#if posts}}
+            <section class="category-featured">
+                <h2 class="section-title">Featured {{tag.name}}</h2>
+                {{#foreach posts}}
+                    <article class="featured-hero" style="margin-bottom: var(--space-16);">
+                        {{#if feature_image}}
+                            <img src="{{feature_image}}" alt="{{title}}" class="featured-hero-image">
+                        {{/if}}
+                        <div class="featured-hero-overlay">
+                            <span class="article-badge article-badge-{{../tag.slug}}">{{../tag.name}}</span>
+                            <h2 class="featured-hero-title">
+                                <a href="{{url}}">{{title}}</a>
+                            </h2>
+                            {{#if custom_excerpt}}
+                                <p class="featured-hero-excerpt">{{custom_excerpt}}</p>
+                            {{else}}
+                                <p class="featured-hero-excerpt">{{excerpt words="40"}}</p>
+                            {{/if}}
+                            <div class="featured-hero-meta">
+                                <span>{{primary_author.name}}</span>
+                                <span>•</span>
+                                <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
+                                <span>•</span>
+                                <span>{{reading_time}}</span>
+                            </div>
+                        </div>
+                    </article>
+                {{/foreach}}
+            </section>
+        {{/if}}
+    {{/get}}
+
+    {{!-- All Stories in Category --}}
+    <section>
+        <header class="section-header">
+            <h2 class="section-title">All {{tag.name}}</h2>
+            <div class="category-sort">
+                <span class="category-sort-label">Sort:</span>
+                <a href="{{url}}" class="category-sort-option active">Latest</a>
+                <a href="{{url}}?order=featured" class="category-sort-option">Featured</a>
+            </div>
+        </header>
+
+        <div class="story-grid">
+            {{#foreach posts}}
+                <article class="story-card">
+                    {{#if feature_image}}
+                        <img src="{{feature_image}}" alt="{{title}}" class="story-card-image" loading="lazy">
+                    {{/if}}
+                    <div class="story-card-content">
+                        {{#primary_tag}}
+                            <span class="story-card-category category-{{slug}}">{{name}}</span>
+                        {{/primary_tag}}
+                        <h3 class="story-card-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h3>
+                        <p class="story-card-excerpt">{{excerpt words="25"}}</p>
+                        <div class="story-card-meta">
+                            <span>{{primary_author.name}}</span>
+                            <span>•</span>
+                            <span>{{date published_at timeago="true"}}</span>
+                            <span>•</span>
+                            <span>{{reading_time}}</span>
+                        </div>
+                    </div>
+                </article>
+            {{/foreach}}
+        </div>
+
+        {{pagination}}
+    </section>
+
+    {{!-- Related Categories --}}
+    <aside class="related-categories">
+        <h3 class="related-categories-title">Explore More</h3>
+        <nav class="category-nav">
+            <a href="/tag/investigation/" class="category-pill" data-category="investigation">🔍 Investigations</a>
+            <a href="/tag/breaking/" class="category-pill" data-category="breaking">🚨 Breaking</a>
+            <a href="/tag/profile/" class="category-pill" data-category="profile">👤 Profiles</a>
+            <a href="/tag/analysis/" class="category-pill" data-category="analysis">📊 Analysis</a>
+            <a href="/tag/community/" class="category-pill">🎉 Community</a>
+            <a href="/tag/culture/" class="category-pill">🎨 Culture</a>
+        </nav>
+    </aside>
 
 </main>
 </div>
+
+<style>
+/* Category Header Styling */
+.category-header {
+    position: relative;
+    padding: var(--space-16) var(--space-8);
+    margin-bottom: var(--space-16);
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-primary);
+}
+
+.category-header-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    border-radius: var(--radius-xl);
+}
+
+.category-header-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.category-header-icon {
+    font-size: var(--text-5xl);
+    display: block;
+    margin-bottom: var(--space-4);
+}
+
+.category-header-title {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-primary);
+}
+
+.category-header-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-6);
+}
+
+.category-header-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-6);
+}
+
+.category-special-notice {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--color-investigation);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+.category-special-notice p {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+}
+
+.category-cta {
+    display: inline-block;
+    margin-top: var(--space-6);
+    padding: var(--space-4) var(--space-8);
+    background: var(--color-whistleblower);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    transition: all var(--transition-base);
+}
+
+.category-cta:hover {
+    background: var(--color-investigation);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.category-sort {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+}
+
+.category-sort-label {
+    color: var(--color-text-tertiary);
+}
+
+.category-sort-option {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+}
+
+.category-sort-option.active {
+    background: var(--brand-primary);
+    color: var(--color-text-primary);
+}
+
+.category-sort-option:hover {
+    background: var(--color-bg-tertiary);
+}
+
+.related-categories {
+    margin-top: var(--space-16);
+    padding: var(--space-8);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-primary);
+}
+
+.related-categories-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-6);
+    color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+    .category-header {
+        padding: var(--space-8) var(--space-4);
+    }
+
+    .category-header-title {
+        font-size: var(--text-3xl);
+    }
+
+    .category-sort {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>

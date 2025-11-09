@@ -1,0 +1,360 @@
+{{!< default}}
+
+<div class="content-area gh-outer">
+<main class="site-main gh-inner">
+
+    <article class="error-page">
+        <div class="error-page-content">
+            <span class="error-page-code">404</span>
+            <h1 class="error-page-title">Story Not Found</h1>
+            <p class="error-page-description">
+                This page doesn't exist, may have been removed, or the URL might be incorrect.
+                But don't worry — there's plenty of investigative journalism to explore.
+            </p>
+
+            {{!-- Search Box --}}
+            <div class="error-page-search">
+                <form class="error-search-form" role="search">
+                    <input type="search"
+                           class="error-search-input"
+                           placeholder="Search for stories, investigations, or topics..."
+                           aria-label="Search">
+                    <button type="submit" class="error-search-button">
+                        🔍 Search
+                    </button>
+                </form>
+            </div>
+
+            {{!-- Quick Links --}}
+            <nav class="error-page-nav" aria-label="Popular sections">
+                <h2 class="error-nav-title">Explore Our Coverage</h2>
+                <div class="error-nav-grid">
+                    <a href="/" class="error-nav-item">
+                        <span class="error-nav-icon">🏠</span>
+                        <span class="error-nav-label">Homepage</span>
+                    </a>
+                    <a href="/tag/investigation/" class="error-nav-item">
+                        <span class="error-nav-icon">🔍</span>
+                        <span class="error-nav-label">Investigations</span>
+                    </a>
+                    <a href="/tag/breaking/" class="error-nav-item">
+                        <span class="error-nav-icon">🚨</span>
+                        <span class="error-nav-label">Breaking News</span>
+                    </a>
+                    <a href="/tag/profile/" class="error-nav-item">
+                        <span class="error-nav-icon">👤</span>
+                        <span class="error-nav-label">Profiles</span>
+                    </a>
+                    <a href="/tag/analysis/" class="error-nav-item">
+                        <span class="error-nav-icon">📊</span>
+                        <span class="error-nav-label">Analysis</span>
+                    </a>
+                    <a href="/tag/community/" class="error-nav-item">
+                        <span class="error-nav-icon">🎉</span>
+                        <span class="error-nav-label">Community</span>
+                    </a>
+                </div>
+            </nav>
+
+            {{!-- Whistleblower CTA --}}
+            {{#if @custom.whistleblower_link}}
+                <div class="error-page-cta">
+                    <h3 class="error-cta-title">Have a tip for us?</h3>
+                    <p class="error-cta-text">
+                        While you're here, if you have information about wrongdoing in the furry community, we want to hear from you.
+                    </p>
+                    <a href="{{@custom.whistleblower_link}}" class="error-cta-button">
+                        🔒 Submit Anonymous Tip
+                    </a>
+                </div>
+            {{/if}}
+        </div>
+
+        {{!-- Popular Stories --}}
+        <section class="error-page-popular">
+            <header class="section-header">
+                <h2 class="section-title">Popular Stories</h2>
+            </header>
+
+            <div class="story-grid">
+                {{#get "posts" limit="3" filter="featured:true" include="tags,authors"}}
+                    {{#foreach posts}}
+                        <article class="story-card">
+                            {{#if feature_image}}
+                                <img src="{{feature_image}}" alt="{{title}}" class="story-card-image" loading="lazy">
+                            {{/if}}
+                            <div class="story-card-content">
+                                {{#primary_tag}}
+                                    <span class="story-card-category category-{{slug}}">{{name}}</span>
+                                {{/primary_tag}}
+                                <h3 class="story-card-title">
+                                    <a href="{{url}}">{{title}}</a>
+                                </h3>
+                                <p class="story-card-excerpt">{{excerpt words="20"}}</p>
+                                <div class="story-card-meta">
+                                    <span>{{primary_author.name}}</span>
+                                    <span>•</span>
+                                    <span>{{date published_at timeago="true"}}</span>
+                                </div>
+                            </div>
+                        </article>
+                    {{/foreach}}
+                {{/get}}
+            </div>
+        </section>
+
+        {{!-- Recent Stories --}}
+        <section class="error-page-recent">
+            <header class="section-header">
+                <h2 class="section-title">Latest Stories</h2>
+            </header>
+
+            <div class="latest-news-list">
+                {{#get "posts" limit="5" include="tags,authors"}}
+                    {{#foreach posts}}
+                        <article class="latest-news-item">
+                            {{#if feature_image}}
+                                <img src="{{feature_image}}" alt="{{title}}" class="latest-news-image" loading="lazy">
+                            {{/if}}
+                            <div class="latest-news-content">
+                                {{#primary_tag}}
+                                    <span class="article-badge article-badge-{{slug}}">{{name}}</span>
+                                {{/primary_tag}}
+                                <h3 class="latest-news-title">
+                                    <a href="{{url}}">{{title}}</a>
+                                </h3>
+                                <div class="latest-news-meta">
+                                    <span>{{primary_author.name}}</span>
+                                    <span>•</span>
+                                    <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at timeago="true"}}</time>
+                                    <span>•</span>
+                                    <span>{{reading_time}}</span>
+                                </div>
+                            </div>
+                        </article>
+                    {{/foreach}}
+                {{/get}}
+            </div>
+        </section>
+    </article>
+
+</main>
+</div>
+
+<style>
+/* 404 Error Page Styling */
+.error-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.error-page-content {
+    text-align: center;
+    padding: var(--space-20) var(--space-8);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border-primary);
+    margin-bottom: var(--space-16);
+}
+
+.error-page-code {
+    display: block;
+    font-size: 120px;
+    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    color: var(--brand-primary);
+    line-height: 1;
+    margin-bottom: var(--space-6);
+    opacity: 0.8;
+}
+
+.error-page-title {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-primary);
+}
+
+.error-page-description {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-10);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-page-search {
+    max-width: 600px;
+    margin: 0 auto var(--space-12);
+}
+
+.error-search-form {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.error-search-input {
+    flex: 1;
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-bg-primary);
+    border: 2px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-size: var(--text-base);
+}
+
+.error-search-input:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: var(--shadow-focus);
+}
+
+.error-search-button {
+    padding: var(--space-4) var(--space-8);
+    background: var(--brand-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    white-space: nowrap;
+}
+
+.error-search-button:hover {
+    background: var(--brand-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.error-page-nav {
+    margin-bottom: var(--space-12);
+}
+
+.error-nav-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-6);
+    color: var(--color-text-primary);
+}
+
+.error-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-4);
+}
+
+.error-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-base);
+}
+
+.error-nav-item:hover {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.error-nav-icon {
+    font-size: var(--text-4xl);
+}
+
+.error-nav-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+}
+
+.error-nav-item:hover .error-nav-label {
+    color: var(--color-text-primary);
+}
+
+.error-page-cta {
+    background: linear-gradient(135deg, rgba(243, 129, 129, 0.15) 0%, rgba(212, 175, 55, 0.15) 100%);
+    border: 2px solid var(--color-whistleblower);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    margin-top: var(--space-12);
+}
+
+.error-cta-title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-3);
+    color: var(--color-text-primary);
+}
+
+.error-cta-text {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+    line-height: var(--leading-relaxed);
+}
+
+.error-cta-button {
+    display: inline-block;
+    padding: var(--space-4) var(--space-8);
+    background: var(--color-whistleblower);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-bold);
+    transition: all var(--transition-base);
+}
+
+.error-cta-button:hover {
+    background: var(--color-investigation);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.error-page-popular,
+.error-page-recent {
+    margin-bottom: var(--space-16);
+}
+
+@media (max-width: 768px) {
+    .error-page-code {
+        font-size: 80px;
+    }
+
+    .error-page-title {
+        font-size: var(--text-3xl);
+    }
+
+    .error-search-form {
+        flex-direction: column;
+    }
+
+    .error-nav-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .error-page-content {
+        padding: var(--space-12) var(--space-6);
+    }
+}
+</style>
+
+<script>
+// Simple search redirect (you can replace with Ghost's built-in search)
+document.querySelector('.error-search-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const searchTerm = this.querySelector('.error-search-input').value;
+    if (searchTerm) {
+        window.location.href = `/?q=${encodeURIComponent(searchTerm)}`;
+    }
+});
+</script>

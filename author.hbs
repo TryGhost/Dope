@@ -4,16 +4,398 @@
 <main class="site-main gh-inner">
 
     {{#author}}
-        <section class="term">
-            <h1 class="term-name">{{name}}</h1>
-        </section>
+        {{!-- Journalist Profile Header --}}
+        <article class="author-profile" itemscope itemtype="http://schema.org/Person">
+            <div class="author-profile-header">
+                {{#if profile_image}}
+                    <img src="{{profile_image}}"
+                         alt="{{name}}"
+                         class="author-profile-avatar"
+                         itemprop="image">
+                {{else}}
+                    <div class="author-profile-avatar-placeholder">
+                        {{initials}}
+                    </div>
+                {{/if}}
+
+                <div class="author-profile-info">
+                    <h1 class="author-profile-name" itemprop="name">{{name}}</h1>
+
+                    {{#if bio}}
+                        <p class="author-profile-bio" itemprop="description">{{bio}}</p>
+                    {{/if}}
+
+                    <div class="author-profile-meta">
+                        <span class="author-profile-role">
+                            {{#if count.posts}}
+                                {{plural count.posts empty='No articles' singular='% article' plural='% articles'}}
+                            {{/if}}
+                        </span>
+
+                        {{#if location}}
+                            <span>•</span>
+                            <span class="author-profile-location" itemprop="address">
+                                📍 {{location}}
+                            </span>
+                        {{/if}}
+                    </div>
+
+                    <div class="author-profile-contact">
+                        {{#if website}}
+                            <a href="{{website}}"
+                               target="_blank"
+                               rel="noopener"
+                               class="author-contact-link"
+                               itemprop="url">
+                                🌐 Website
+                            </a>
+                        {{/if}}
+
+                        {{#if twitter}}
+                            <a href="{{twitter_url}}"
+                               target="_blank"
+                               rel="noopener"
+                               class="author-contact-link"
+                               itemprop="sameAs">
+                                🐦 Twitter
+                            </a>
+                        {{/if}}
+
+                        {{#if facebook}}
+                            <a href="{{facebook_url}}"
+                               target="_blank"
+                               rel="noopener"
+                               class="author-contact-link"
+                               itemprop="sameAs">
+                                📘 Facebook
+                            </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
+            {{!-- Author Stats --}}
+            <div class="author-stats">
+                <div class="author-stat">
+                    <span class="author-stat-number">{{count.posts}}</span>
+                    <span class="author-stat-label">Total Articles</span>
+                </div>
+                {{#get "posts" filter="author:{{slug}}+tag:investigation" limit="1"}}
+                    <div class="author-stat">
+                        <span class="author-stat-number">{{meta.pagination.total}}</span>
+                        <span class="author-stat-label">Investigations</span>
+                    </div>
+                {{/get}}
+                {{#get "posts" filter="author:{{slug}}+tag:profile" limit="1"}}
+                    <div class="author-stat">
+                        <span class="author-stat-number">{{meta.pagination.total}}</span>
+                        <span class="author-stat-label">Profiles</span>
+                    </div>
+                {{/get}}
+                {{#get "posts" filter="author:{{slug}}+tag:breaking" limit="1"}}
+                    <div class="author-stat">
+                        <span class="author-stat-number">{{meta.pagination.total}}</span>
+                        <span class="author-stat-label">Breaking News</span>
+                    </div>
+                {{/get}}
+            </div>
+        </article>
     {{/author}}
 
-    <div class="post-feed">
-        {{#foreach posts}}
-            {{> "loop"}}
-        {{/foreach}}
-    </div>
+    {{!-- Latest Investigations by Author --}}
+    {{#get "posts" filter="author:{{author.slug}}+tag:investigation" limit="3" include="tags"}}
+        {{#if posts}}
+            <section class="author-section">
+                <header class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon">🔍</span>
+                        Investigations
+                    </h2>
+                    <a href="/author/{{../author.slug}}/tag/investigation/" class="section-link">View all</a>
+                </header>
+
+                <div class="story-grid">
+                    {{#foreach posts}}
+                        <article class="story-card">
+                            {{#if feature_image}}
+                                <img src="{{feature_image}}" alt="{{title}}" class="story-card-image" loading="lazy">
+                            {{/if}}
+                            <div class="story-card-content">
+                                <span class="story-card-category category-investigation">Investigation</span>
+                                <h3 class="story-card-title">
+                                    <a href="{{url}}">{{title}}</a>
+                                </h3>
+                                <p class="story-card-excerpt">{{excerpt words="25"}}</p>
+                                <div class="story-card-meta">
+                                    <span>{{date published_at format="DD MMM YYYY"}}</span>
+                                    <span>•</span>
+                                    <span>{{reading_time}}</span>
+                                </div>
+                            </div>
+                        </article>
+                    {{/foreach}}
+                </div>
+            </section>
+        {{/if}}
+    {{/get}}
+
+    {{!-- Latest Profiles by Author --}}
+    {{#get "posts" filter="author:{{author.slug}}+tag:profile" limit="3" include="tags"}}
+        {{#if posts}}
+            <section class="author-section">
+                <header class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon">👤</span>
+                        Profiles
+                    </h2>
+                    <a href="/author/{{../author.slug}}/tag/profile/" class="section-link">View all</a>
+                </header>
+
+                <div class="story-grid">
+                    {{#foreach posts}}
+                        <article class="story-card">
+                            {{#if feature_image}}
+                                <img src="{{feature_image}}" alt="{{title}}" class="story-card-image" loading="lazy">
+                            {{/if}}
+                            <div class="story-card-content">
+                                <span class="story-card-category category-profile">Profile</span>
+                                <h3 class="story-card-title">
+                                    <a href="{{url}}">{{title}}</a>
+                                </h3>
+                                <p class="story-card-excerpt">{{excerpt words="25"}}</p>
+                                <div class="story-card-meta">
+                                    <span>{{date published_at format="DD MMM YYYY"}}</span>
+                                    <span>•</span>
+                                    <span>{{reading_time}}</span>
+                                </div>
+                            </div>
+                        </article>
+                    {{/foreach}}
+                </div>
+            </section>
+        {{/if}}
+    {{/get}}
+
+    {{!-- All Stories by Author --}}
+    <section class="author-section">
+        <header class="section-header">
+            <h2 class="section-title">All Stories by {{author.name}}</h2>
+            <div class="author-filter">
+                <span class="author-filter-label">Filter:</span>
+                <a href="{{author.url}}" class="category-pill active">All</a>
+                <a href="{{author.url}}tag/investigation/" class="category-pill" data-category="investigation">🔍 Investigations</a>
+                <a href="{{author.url}}tag/breaking/" class="category-pill" data-category="breaking">🚨 Breaking</a>
+                <a href="{{author.url}}tag/profile/" class="category-pill" data-category="profile">👤 Profiles</a>
+                <a href="{{author.url}}tag/analysis/" class="category-pill" data-category="analysis">📊 Analysis</a>
+            </div>
+        </header>
+
+        <div class="latest-news-list">
+            {{#foreach posts}}
+                <article class="latest-news-item">
+                    {{#if feature_image}}
+                        <img src="{{feature_image}}" alt="{{title}}" class="latest-news-image" loading="lazy">
+                    {{/if}}
+                    <div class="latest-news-content">
+                        {{#primary_tag}}
+                            <span class="article-badge article-badge-{{slug}}">{{name}}</span>
+                        {{/primary_tag}}
+                        <h3 class="latest-news-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h3>
+                        <div class="latest-news-meta">
+                            <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
+                            <span>•</span>
+                            <span>{{reading_time}}</span>
+                            {{#if featured}}
+                                <span>•</span>
+                                <span class="featured-indicator">⭐ Featured</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                </article>
+            {{/foreach}}
+        </div>
+
+        {{pagination}}
+    </section>
 
 </main>
 </div>
+
+<style>
+/* Author Profile Styling */
+.author-profile {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-12);
+    margin-bottom: var(--space-16);
+    border: 1px solid var(--color-border-primary);
+}
+
+.author-profile-header {
+    display: flex;
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+}
+
+.author-profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 3px solid var(--brand-primary);
+    flex-shrink: 0;
+}
+
+.author-profile-avatar-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: var(--radius-full);
+    background: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    flex-shrink: 0;
+}
+
+.author-profile-info {
+    flex: 1;
+}
+
+.author-profile-name {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-primary);
+}
+
+.author-profile-bio {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+}
+
+.author-profile-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-6);
+}
+
+.author-profile-role {
+    font-weight: var(--font-weight-semibold);
+    color: var(--brand-primary);
+}
+
+.author-profile-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.author-contact-link {
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    transition: all var(--transition-base);
+}
+
+.author-contact-link:hover {
+    background: var(--brand-primary);
+    color: var(--color-text-primary);
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+}
+
+.author-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-6);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border-primary);
+}
+
+.author-stat {
+    text-align: center;
+}
+
+.author-stat-number {
+    display: block;
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    color: var(--brand-primary);
+    margin-bottom: var(--space-2);
+}
+
+.author-stat-label {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.author-section {
+    margin-bottom: var(--space-16);
+}
+
+.author-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+}
+
+.author-filter-label {
+    color: var(--color-text-tertiary);
+    margin-right: var(--space-2);
+}
+
+.featured-indicator {
+    color: var(--color-investigation);
+    font-weight: var(--font-weight-semibold);
+}
+
+@media (max-width: 768px) {
+    .author-profile {
+        padding: var(--space-6);
+    }
+
+    .author-profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .author-profile-name {
+        font-size: var(--text-3xl);
+    }
+
+    .author-profile-contact {
+        justify-content: center;
+    }
+
+    .author-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .author-filter {
+        margin-top: var(--space-4);
+    }
+}
+</style>
