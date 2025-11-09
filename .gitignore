@@ -1,0 +1,27 @@
+# Node modules
+node_modules/
+
+# Build artifacts
+assets/built/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Package manager lock files (optional - some teams commit these)
+# Uncomment if you don't want to track package-lock.json
+# package-lock.json
