@@ -18,7 +18,7 @@ We expect all contributors to:
 - Respect sources, including their boundaries and trauma
 - Avoid harassment, dogpiling, or targeted hate
 - Keep doxxable data and sensitive evidence out of Git and in secure channels
-- A more formal Code of Conduct (e.g. Contributor Covenant) can be found in CODE_OF_CONDUCT.md.
+- A more formal Code of Conduct (e.g. Contributor Covenant) can be found in [CODE_OF_CONDUCT.md](https://github.com/nicweyand/Greymuzzle/blob/main/CODE_OF_CONDUCT.md).
 
 # Dope
 
