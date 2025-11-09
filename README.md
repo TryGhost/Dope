@@ -1,3 +1,25 @@
+# Greymuzzle
+_Furry-centric investigative journalism, powered by Ghost & the **Dope** theme_
+
+Greymuzzle is a furry fandom-native newsroom focused on:
+- Accountability in furry spaces  
+- Safety, anti-abuse, and anti-fascist reporting  
+- Labor, money, and power in the fandom  
+- Culture, history, and “greymuzzle” memory
+- Artist profiles
+
+Greymuzzle is:
+- Anti-fascist
+- Pro-survivor
+- Pro-worker
+- Explicitly queer-friendly and furry-centric
+
+We expect all contributors to:
+- Respect sources, including their boundaries and trauma
+- Avoid harassment, dogpiling, or targeted hate
+- Keep doxxable data and sensitive evidence out of Git and in secure channels
+- A more formal Code of Conduct (e.g. Contributor Covenant) can be found in CODE_OF_CONDUCT.md.
+
 # Dope
 
 A unique tag-based [Ghost](https://github.com/TryGhost/Ghost) theme to arrange your publications into collections. Keep organized and let your readers explore your publications with beautifully designed tag columns.
