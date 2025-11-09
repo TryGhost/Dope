@@ -1,47 +1,92 @@
 <!DOCTYPE html>
-<html lang="{{@site.locale}}">
+<html lang="{{@site.locale}}" data-theme="dark">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{meta_title}}</title>
+
+    {{!-- Preload critical fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link rel="stylesheet" href="{{asset "built/screen.css"}}">
 
     {{{block "styles"}}}
 
+    {{!-- Theme color for mobile browsers --}}
+    <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
     {{ghost_head}}
 </head>
 
-<body class="{{body_class}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Elegant serif"}} has-serif-body{{/match}}">
+<body class="{{body_class}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.title_font "=" "Newspaper classic"}} has-display-title{{/match}}{{#match @custom.body_font "=" "Elegant serif"}} has-serif-body{{/match}}">
+
+{{!-- Skip to main content link for accessibility --}}
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+{{!-- Live region for screen reader announcements --}}
+<div aria-live="polite" aria-atomic="true" class="sr-only" id="announcements"></div>
+
 <div class="site">
 
-    <header class="site-header gh-outer">
+    <header class="site-header gh-outer" role="banner">
         <div class="navbar">
-            <a class="logo" href="{{@site.url}}">
+            <a class="logo" href="{{@site.url}}" aria-label="{{@site.title}} home">
                 {{#if @site.logo}}
                     <img class="logo-image" src="{{@site.logo}}" alt="{{@site.title}}">
                 {{else}}
                     <span class="logo-text">{{@site.title}}</span>
                 {{/if}}
             </a>
-            <div class="burger"></div>
+
+            {{!-- Whistleblower tip link in header --}}
+            {{#if @custom.whistleblower_link}}
+                <a href="{{@custom.whistleblower_link}}" class="header-tip-link" aria-label="Submit anonymous tip securely">
+                    <span aria-hidden="true">🔒</span> Submit a Tip
+                </a>
+            {{/if}}
+
+            {{!-- Theme toggle button --}}
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+                <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+            </button>
+
+            <button class="burger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="side-menu">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </button>
         </div>
     </header>
 
-    <div class="site-content">
+    <main class="site-content" id="main-content" role="main">
         {{{body}}}
-    </div>
+    </main>
 
-    <footer class="gh-foot{{#unless @site.secondary_navigation}} no-menu{{/unless}} gh-outer">
+    <footer class="gh-foot{{#unless @site.secondary_navigation}} no-menu{{/unless}} gh-outer" role="contentinfo">
         <div class="gh-foot-inner gh-inner">
             <div class="gh-copyright">
-                {{@site.title}} © {{date format="YYYY"}}
+                {{@site.title}} © {{date format="YYYY"}} | Independent Furry Journalism
             </div>
             {{#if @site.secondary_navigation}}
-                <nav class="gh-foot-menu">
+                <nav class="gh-foot-menu" aria-label="Footer navigation">
                     {{navigation type="secondary"}}
                 </nav>
             {{/if}}
+
+            {{!-- Whistleblower/Ethics links in footer --}}
+            <div class="gh-foot-journalism">
+                {{#if @custom.whistleblower_link}}
+                    <a href="{{@custom.whistleblower_link}}" class="foot-tip-link">
+                        <span aria-hidden="true">🔒</span> Submit Anonymous Tip
+                    </a>
+                {{/if}}
+                <a href="/ethics">Editorial Ethics</a>
+                <a href="/corrections">Corrections Policy</a>
+            </div>
+
             <div class="gh-powered-by">
                 <a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a>
             </div>
@@ -57,9 +102,48 @@
 {{/is}}
 
 <script>
+    // Tag feed height adjustment
     if (document.getElementsByClassName('tag-feed').length) {
         document.getElementsByClassName('tag-feed')[0].style.height = window.innerHeight + 'px';
     }
+
+    // Theme toggle functionality
+    (function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggle?.querySelector('.theme-toggle-icon');
+
+        // Check for saved theme preference or default to dark
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', currentTheme);
+        if (icon) icon.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+
+        themeToggle?.addEventListener('click', function() {
+            const theme = html.getAttribute('data-theme');
+            const newTheme = theme === 'dark' ? 'light' : 'dark';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            if (icon) icon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+
+            // Announce theme change to screen readers
+            const announcement = document.getElementById('announcements');
+            if (announcement) {
+                announcement.textContent = `Theme changed to ${newTheme} mode`;
+            }
+        });
+
+        // Keyboard navigation helper
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-nav-active');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-nav-active');
+        });
+    })();
 </script>
 
 <script

@@ -1,11 +1,35 @@
 {{!< default}}
 
+{{!-- Reading progress bar --}}
+{{#if @custom.enable_reading_progress}}
+<div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="reading-progress-bar" id="reading-progress-bar"></div>
+</div>
+{{/if}}
+
 <div class="content-area">
 <main class="site-main">
 
     {{#post}}
 
-    <article class="{{post_class}} single-post">
+    <article class="{{post_class}} single-post" itemscope itemtype="http://schema.org/Article">
+
+        {{!-- Article type badge based on primary tag --}}
+        {{#primary_tag}}
+            {{#match slug "investigation"}}
+                <span class="article-badge article-badge-investigation">Investigation</span>
+            {{/match}}
+            {{#match slug "breaking"}}
+                <span class="article-badge article-badge-breaking">Breaking</span>
+            {{/match}}
+            {{#match slug "profile"}}
+                <span class="article-badge article-badge-profile">Profile</span>
+            {{/match}}
+            {{#match slug "analysis"}}
+                <span class="article-badge article-badge-analysis">Analysis</span>
+            {{/match}}
+        {{/primary_tag}}
+
         {{#if feature_image}}
             {{> "post-header"}}
         {{else}}
@@ -16,31 +40,101 @@
                     </div>
                 {{/primary_tag}}
 
-                <h1 class="post-title">{{title}}</h1>
+                <h1 class="post-title" itemprop="headline">{{title}}</h1>
 
-                <div class="post-meta">
-                    <span class="post-meta-item post-meta-date">
-                        <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
-                    </span>
-                    <span class="post-meta-item post-meta-length">{{reading_time}}</span>
-                    {{#if featured}}
-                        <span class="post-meta-featured">
-                            {{> "icons/star"}}
+                {{#if custom_excerpt}}
+                    <p class="post-excerpt" itemprop="description">{{custom_excerpt}}</p>
+                {{/if}}
+
+                {{!-- Enhanced metadata for journalism --}}
+                <div class="article-meta" role="contentinfo">
+                    {{#if @custom.show_publication_date}}
+                        <span class="article-meta-item article-published">
+                            <time datetime="{{date format="YYYY-MM-DD"}}" itemprop="datePublished">
+                                {{date published_at format="DD MMM YYYY"}}
+                            </time>
                         </span>
                     {{/if}}
+
+                    {{#if @custom.show_updated_date}}
+                        {{#if updated_at}}
+                            <span class="article-meta-item article-updated">
+                                <time datetime="{{date updated_at format="YYYY-MM-DD"}}" itemprop="dateModified">
+                                    Updated {{date updated_at format="DD MMM YYYY"}}
+                                </time>
+                            </span>
+                        {{/if}}
+                    {{/if}}
+
+                    {{#if @custom.show_reading_time}}
+                        <span class="article-meta-item article-reading-time">
+                            {{reading_time}}
+                        </span>
+                    {{/if}}
+
+                    {{#if featured}}
+                        <span class="article-meta-item post-meta-featured">
+                            {{> "icons/star"}} Featured
+                        </span>
+                    {{/if}}
+
                     {{#if @site.comments_enabled}}
-                        {{comment_count class="post-meta-item"}}
+                        {{comment_count class="article-meta-item"}}
                     {{/if}}
                 </div>
             </header>
         {{/if}}
-        <div class="post-content gh-content gh-canvas">
+
+        <div class="post-content gh-content gh-canvas reading-content" itemprop="articleBody">
             {{content}}
+
+            {{!-- Whistleblower CTA at end of investigations --}}
+            {{#primary_tag}}
+                {{#match slug "investigation"}}
+                    <div class="whistleblower-cta">
+                        <h3 class="whistleblower-cta-title">Have information about this story?</h3>
+                        <p class="whistleblower-cta-text">We protect our sources and use secure methods for sensitive communications.</p>
+                        <a href="{{@custom.whistleblower_link}}" class="whistleblower-cta-button">Submit a Tip Securely</a>
+                        <p class="whistleblower-cta-security">End-to-end encrypted and anonymous</p>
+                    </div>
+                {{/match}}
+            {{/primary_tag}}
         </div>
+
+        {{!-- Hidden metadata for search engines --}}
+        <meta itemprop="author" content="{{primary_author.name}}">
+        <meta itemprop="publisher" content="{{@site.title}}">
+        {{#if feature_image}}
+            <meta itemprop="image" content="{{feature_image}}">
+        {{/if}}
     </article>
 
+    {{!-- Enhanced author box for journalism --}}
     {{#if @custom.show_author}}
-        {{> "author-box"}}
+        <div class="gh-canvas">
+            <div class="article-byline" itemscope itemtype="http://schema.org/Person">
+                {{#primary_author}}
+                    {{#if profile_image}}
+                        <img src="{{profile_image}}" alt="{{name}}" class="article-byline-avatar" itemprop="image">
+                    {{/if}}
+                    <div class="article-byline-info">
+                        <h4 class="article-byline-name" itemprop="name">{{name}}</h4>
+                        {{#if bio}}
+                            <p class="article-byline-title" itemprop="description">{{bio}}</p>
+                        {{/if}}
+                        <div class="article-byline-contact">
+                            {{#if website}}
+                                <a href="{{website}}" target="_blank" rel="noopener" itemprop="url">Website</a>
+                            {{/if}}
+                            {{#if twitter}}
+                                <a href="{{twitter_url}}" target="_blank" rel="noopener">Twitter</a>
+                            {{/if}}
+                            <a href="{{url}}">More by {{name}}</a>
+                        </div>
+                    </div>
+                {{/primary_author}}
+            </div>
+        </div>
     {{/if}}
 
     {{#if comments}}
@@ -57,3 +151,41 @@
 
 </main>
 </div>
+
+{{!-- Reading progress JavaScript --}}
+{{#if @custom.enable_reading_progress}}
+<script>
+(function() {
+    const progressBar = document.getElementById('reading-progress-bar');
+    const article = document.querySelector('.post-content');
+
+    if (!progressBar || !article) return;
+
+    function updateProgress() {
+        const articleTop = article.offsetTop;
+        const articleHeight = article.offsetHeight;
+        const windowHeight = window.innerHeight;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        const articleBottom = articleTop + articleHeight;
+        const scrollableDistance = articleBottom - windowHeight;
+        const scrolled = scrollTop - articleTop;
+
+        let progress = 0;
+        if (scrollTop >= articleTop && scrollTop <= scrollableDistance) {
+            progress = (scrolled / (articleHeight - windowHeight)) * 100;
+        } else if (scrollTop > scrollableDistance) {
+            progress = 100;
+        }
+
+        progress = Math.max(0, Math.min(100, progress));
+        progressBar.style.width = progress + '%';
+        progressBar.parentElement.setAttribute('aria-valuenow', Math.round(progress));
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+    updateProgress();
+})();
+</script>
+{{/if}}

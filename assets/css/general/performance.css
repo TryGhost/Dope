@@ -1,0 +1,373 @@
+/* ==========================================================================
+   Greymuzzle Performance Optimizations
+   Fast, efficient loading for desktop and mobile
+   ========================================================================== */
+
+/* ===== Image Lazy Loading Skeleton ===== */
+
+img[loading="lazy"] {
+    background: var(--color-bg-tertiary);
+}
+
+.img-skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--color-bg-tertiary) 25%,
+        var(--color-bg-secondary) 50%,
+        var(--color-bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ===== Content Visibility (Browser Performance Hints) ===== */
+
+.story-card,
+.latest-news-item,
+.post-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 400px;
+}
+
+/* ===== Will-Change for Animations ===== */
+
+.story-card:hover,
+.theme-toggle:hover,
+.burger:hover {
+    will-change: transform;
+}
+
+/* Remove will-change after animation completes */
+.story-card,
+.theme-toggle,
+.burger {
+    transition: transform var(--transition-base);
+}
+
+/* ===== Font Loading Strategy ===== */
+
+/* Display text immediately with system fonts while custom fonts load */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local(''),
+         url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Lora';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local(''),
+         url('https://fonts.gstatic.com/s/lora/v23/0QI6MX1D_JOuGQbT0gvTJPa787weuxJBkqs.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local(''),
+         url('https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvUDQZNLo_U2r.woff2') format('woff2');
+}
+
+/* ===== Reduce Repaints with GPU Acceleration ===== */
+
+.reading-progress-bar,
+.pullquote,
+.story-card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* ===== Contain Layout Shifts ===== */
+
+.post-header,
+.featured-hero,
+.story-card-image {
+    aspect-ratio: 16 / 9;
+}
+
+.article-byline-avatar {
+    aspect-ratio: 1;
+}
+
+/* Ensure images have dimensions to prevent CLS */
+img {
+    height: auto;
+}
+
+/* ===== Optimize Rendering for Animations ===== */
+
+@media (prefers-reduced-motion: no-preference) {
+    .story-card,
+    .latest-news-item,
+    .top-story-item {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* ===== Intersection Observer Triggers ===== */
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== Defer Offscreen Content ===== */
+
+.below-fold {
+    content-visibility: auto;
+}
+
+/* ===== Efficient Shadows (Use box-shadow sparingly) ===== */
+
+/* Cache shadow calculations */
+.shadow-cached {
+    filter: drop-shadow(var(--shadow-md));
+}
+
+/* ===== Smooth Scrolling (with performance consideration) ===== */
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* ===== Critical CSS Indicators ===== */
+
+/* Mark elements that should be in critical CSS */
+.above-fold {
+    /* These styles are duplicated in inline critical CSS */
+}
+
+/* ===== Async Content Loading ===== */
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--color-bg-tertiary);
+    border-top-color: var(--brand-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: var(--space-8) auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== Reduce Paint Area ===== */
+
+.isolated-layer {
+    isolation: isolate;
+}
+
+/* ===== Optimize Typography Rendering ===== */
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* But remove for animated elements to improve performance */
+.animated-text {
+    -webkit-font-smoothing: subpixel-antialiased;
+    text-rendering: optimizeSpeed;
+}
+
+/* ===== Prevent Font Size Adjustment on Mobile ===== */
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* ===== Optimize Flexbox and Grid ===== */
+
+/* Use subgrid where supported */
+@supports (grid-template-rows: subgrid) {
+    .story-grid {
+        grid-template-rows: subgrid;
+    }
+}
+
+/* ===== Reduce Compositing Layers ===== */
+
+.no-composite {
+    transform: none;
+    will-change: auto;
+}
+
+/* ===== Preload Key Resources ===== */
+
+/* This is a CSS comment for documentation:
+   Add to <head>:
+   <link rel="preload" href="path/to/font.woff2" as="font" type="font/woff2" crossorigin>
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+*/
+
+/* ===== Connection Optimization Hints ===== */
+
+/* Resource hints should be in HTML, documented here:
+   <link rel="preconnect" href="https://cdn.example.com">
+   <link rel="prefetch" href="/next-page">
+*/
+
+/* ===== Efficient Border Radius ===== */
+
+.efficient-radius {
+    /* Use transform instead of changing border-radius for animations */
+    border-radius: var(--radius-md);
+}
+
+/* ===== Minimize Reflows ===== */
+
+.static-dimensions {
+    /* Set explicit dimensions where possible */
+    width: 100%;
+    height: auto;
+}
+
+/* ===== Optimize Hover States ===== */
+
+@media (hover: hover) and (pointer: fine) {
+    /* Only apply expensive hover effects on devices that support hover */
+    .story-card:hover .story-card-image {
+        transform: scale(1.05);
+    }
+}
+
+/* ===== Battery Saving Mode ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== Print Performance ===== */
+
+@media print {
+    * {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+}
+
+/* ===== Service Worker Offline Indicator ===== */
+
+.offline-indicator {
+    position: fixed;
+    bottom: var(--space-4);
+    right: var(--space-4);
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-warning);
+    color: var(--color-bg-primary);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-sm);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-tooltip);
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ===== Reduce Motion for Accessibility ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    .story-card,
+    .latest-news-item,
+    .featured-hero,
+    .pullquote,
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ===== Mobile-Specific Optimizations ===== */
+
+@media (max-width: 768px) {
+    /* Reduce complexity on mobile */
+    .shadow-lg,
+    .shadow-xl {
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Simplify animations */
+    .story-card:hover {
+        transform: none;
+    }
+
+    /* Reduce blur effects on mobile for better performance */
+    .site-header {
+        backdrop-filter: none;
+        background: var(--color-bg-secondary);
+    }
+}
+
+/* ===== Network-Aware Loading ===== */
+
+/* Documented for JavaScript implementation:
+   - Use navigator.connection.effectiveType
+   - Load lower quality images on slow connections
+   - Reduce animations on 2G/3G
+*/
+
+/* ===== Core Web Vitals Optimizations ===== */
+
+/* Largest Contentful Paint (LCP) */
+.featured-hero-image,
+.story-card-image {
+    /* Ensure critical images are prioritized */
+    loading: eager;
+}
+
+/* First Input Delay (FID) */
+/* Minimize JavaScript, defer non-critical scripts */
+
+/* Cumulative Layout Shift (CLS) */
+/* All images have aspect-ratio or explicit dimensions */
+/* Fonts use font-display: swap */
