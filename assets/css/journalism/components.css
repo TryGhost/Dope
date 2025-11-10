@@ -136,15 +136,15 @@
 }
 
 .article-reading-time::before {
-    content: " ";
+    content: ' ';
 }
 
 .article-published::before {
-    content: " ";
+    content: ' ';
 }
 
 .article-updated::before {
-    content: " ";
+    content: ' ';
 }
 
 /* ===== Pull Quotes ===== */
@@ -163,7 +163,7 @@
 }
 
 .pullquote::before {
-    content: """;
+    content: '\201C';
     position: absolute;
     top: var(--space-4);
     left: var(--space-6);
@@ -184,7 +184,7 @@
 }
 
 .pullquote-attribution::before {
-    content: "— ";
+    content: '\2014\00A0';
 }
 
 /* ===== Callout Boxes ===== */
@@ -226,19 +226,19 @@
 }
 
 .callout-info .callout-title::before {
-    content: "ℹ";
+    content: '\2139';
 }
 
 .callout-warning .callout-title::before {
-    content: "⚠";
+    content: '\26A0';
 }
 
 .callout-important .callout-title::before {
-    content: "!";
+    content: '!';
 }
 
 .callout-tip .callout-title::before {
-    content: "*";
+    content: '*';
 }
 
 /* ===== Source Citations ===== */
@@ -405,7 +405,7 @@
 }
 
 .data-viz-source::before {
-    content: "Source: ";
+    content: 'Source: ';
     font-weight: var(--font-weight-semibold);
 }
 
@@ -460,6 +460,27 @@
 .toc-list-nested {
     padding-left: var(--space-4);
     margin-top: var(--space-2);
+}
+
+.toc-toggle-icon {
+    display: inline-block;
+    margin-left: var(--space-2);
+    font-size: var(--text-sm);
+    user-select: none;
+}
+
+/* Enhanced focus states for keyboard navigation */
+.toc-list a:focus {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+    background: var(--color-bg-tertiary);
+}
+
+/* Skip to content link */
+.skip-to-content:focus {
+    top: 0 !important;
+    outline: 3px solid var(--brand-primary);
+    outline-offset: 2px;
 }
 
 /* ===== Reading Progress Bar ===== */

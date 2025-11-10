@@ -1,0 +1,316 @@
+{{!< default}}
+{{!-- Template Name: Investigations Dashboard --}}
+
+<div class="content-area">
+<main class="site-main investigations-page">
+
+    <header class="investigations-header gh-canvas">
+        <h1>Investigations</h1>
+        <p class="investigations-subtitle">Holding power accountable in the furry community</p>
+
+        <div class="investigations-stats">
+            <div class="investigation-stat">
+                <span class="investigation-stat-number" id="total-investigations">0</span>
+                <span class="investigation-stat-label">Total Investigations</span>
+            </div>
+            <div class="investigation-stat">
+                <span class="investigation-stat-number" id="ongoing-investigations">0</span>
+                <span class="investigation-stat-label">Ongoing</span>
+            </div>
+            <div class="investigation-stat">
+                <span class="investigation-stat-number" id="concluded-investigations">0</span>
+                <span class="investigation-stat-label">Concluded</span>
+            </div>
+        </div>
+
+        <div class="investigations-filters">
+            <button class="investigation-filter active" data-status="all">All</button>
+            <button class="investigation-filter" data-status="ongoing">Ongoing</button>
+            <button class="investigation-filter" data-status="concluded">Concluded</button>
+            <button class="investigation-filter" data-status="updated">Recently Updated</button>
+        </div>
+    </header>
+
+    <div class="investigations-grid gh-canvas" id="investigations-grid">
+        {{#get "posts" filter="tag:investigation" limit="100" as |investigations|}}
+            {{#foreach investigations}}
+            <article class="investigation-card" data-status="{{#has tag="investigation-ongoing"}}ongoing{{/has}}{{#has tag="investigation-concluded"}}concluded{{/has}}">
+                {{#if feature_image}}
+                <div class="investigation-card-image" style="background-image: url({{feature_image}})"></div>
+                {{/if}}
+
+                <div class="investigation-card-content">
+                    <div class="investigation-card-badges">
+                        {{#has tag="investigation-ongoing"}}
+                        <span class="investigation-badge investigation-badge-ongoing">Ongoing</span>
+                        {{/has}}
+                        {{#has tag="investigation-concluded"}}
+                        <span class="investigation-badge investigation-badge-concluded">Concluded</span>
+                        {{/has}}
+                        {{#has tag="breaking"}}
+                        <span class="investigation-badge investigation-badge-breaking">Breaking</span>
+                        {{/has}}
+                    </div>
+
+                    <h2 class="investigation-card-title"><a href="{{url}}">{{title}}</a></h2>
+
+                    {{#if custom_excerpt}}
+                    <p class="investigation-card-excerpt">{{custom_excerpt}}</p>
+                    {{else}}
+                    <p class="investigation-card-excerpt">{{excerpt words="25"}}</p>
+                    {{/if}}
+
+                    <div class="investigation-card-meta">
+                        <time datetime="{{date format="YYYY-MM-DD"}}">{{date published_at format="MMM DD, YYYY"}}</time>
+                        {{#if updated_at}}
+                        <span class="investigation-card-updated">Updated {{date updated_at timeago="true"}}</span>
+                        {{/if}}
+                    </div>
+
+                    {{#primary_author}}
+                    <div class="investigation-card-author">
+                        {{#if profile_image}}<img src="{{profile_image}}" alt="{{name}}">{{/if}}
+                        <span>By {{name}}</span>
+                    </div>
+                    {{/primary_author}}
+                </div>
+            </article>
+            {{/foreach}}
+        {{/get}}
+    </div>
+
+</main>
+</div>
+
+<style>
+.investigations-page {
+    padding: var(--space-12) 0;
+}
+
+.investigations-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+}
+
+.investigations-header h1 {
+    font-size: var(--text-5xl);
+    margin-bottom: var(--space-4);
+}
+
+.investigations-subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-10);
+}
+
+.investigations-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-10);
+}
+
+.investigation-stat {
+    text-align: center;
+}
+
+.investigation-stat-number {
+    display: block;
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--brand-primary);
+}
+
+.investigation-stat-label {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.investigations-filters {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.investigation-filter {
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.investigation-filter:hover {
+    background: var(--color-bg-tertiary);
+}
+
+.investigation-filter.active {
+    background: var(--brand-primary);
+    color: white;
+    border-color: var(--brand-primary);
+}
+
+.investigations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--space-8);
+}
+
+.investigation-card {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+    border: 1px solid var(--color-border-primary);
+}
+
+.investigation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.investigation-card-image {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.investigation-card-content {
+    padding: var(--space-6);
+}
+
+.investigation-card-badges {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.investigation-badge {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.investigation-badge-ongoing {
+    background: #ffa94d;
+    color: white;
+}
+
+.investigation-badge-concluded {
+    background: #10b981;
+    color: white;
+}
+
+.investigation-badge-breaking {
+    background: #ff6b6b;
+    color: white;
+}
+
+.investigation-card-title {
+    margin: 0 0 var(--space-4);
+    font-size: var(--text-2xl);
+}
+
+.investigation-card-title a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+}
+
+.investigation-card-title a:hover {
+    color: var(--brand-primary);
+}
+
+.investigation-card-excerpt {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-4);
+}
+
+.investigation-card-meta {
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+}
+
+.investigation-card-updated {
+    font-style: italic;
+}
+
+.investigation-card-author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-primary);
+}
+
+.investigation-card-author img {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+}
+
+@media (max-width: 768px) {
+    .investigations-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+(function() {
+    'use strict';
+
+    const filters = document.querySelectorAll('.investigation-filter');
+    const cards = document.querySelectorAll('.investigation-card');
+
+    // Count investigations
+    let total = cards.length;
+    let ongoing = 0;
+    let concluded = 0;
+
+    cards.forEach(card => {
+        if (card.dataset.status === 'ongoing') ongoing++;
+        if (card.dataset.status === 'concluded') concluded++;
+    });
+
+    document.getElementById('total-investigations').textContent = total;
+    document.getElementById('ongoing-investigations').textContent = ongoing;
+    document.getElementById('concluded-investigations').textContent = concluded;
+
+    // Filter functionality
+    filters.forEach(filter => {
+        filter.addEventListener('click', () => {
+            const status = filter.dataset.status;
+
+            filters.forEach(f => f.classList.remove('active'));
+            filter.classList.add('active');
+
+            cards.forEach(card => {
+                if (status === 'all') {
+                    card.style.display = '';
+                } else if (status === 'updated') {
+                    // Show recently updated (within 30 days)
+                    const updated = card.querySelector('.investigation-card-updated');
+                    card.style.display = updated ? '' : 'none';
+                } else {
+                    card.style.display = card.dataset.status === status ? '' : 'none';
+                }
+            });
+        });
+    });
+})();
+</script>

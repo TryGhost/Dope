@@ -56,9 +56,9 @@
 
                 <div class="category-header-meta">
                     <span>{{plural ../pagination.total empty='No stories' singular='% story' plural='% stories'}}</span>
-                    {{#if og_description}}
+                    {{#if updated_at}}
                         <span>•</span>
-                        <span>Updated {{updated_at timeago="true"}}</span>
+                        <span>Updated {{date updated_at timeago=true}}</span>
                     {{/if}}
                 </div>
 

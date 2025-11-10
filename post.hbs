@@ -162,6 +162,17 @@
 </main>
 </div>
 
+{{!-- Journalism Components JavaScript --}}
+<script src="{{asset "js/journalism-components.js"}}"></script>
+
+{{!-- Social Sharing JavaScript --}}
+<script src="{{asset "js/social-share.js"}}"></script>
+
+{{!-- Table of Contents JavaScript --}}
+{{#if @custom.enable_table_of_contents}}
+<script src="{{asset "js/toc.js"}}"></script>
+{{/if}}
+
 {{!-- Reading progress JavaScript --}}
 {{#if @custom.enable_reading_progress}}
 <script>

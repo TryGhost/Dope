@@ -3,7 +3,7 @@
 <div class="content-area gh-outer">
 <main class="site-main gh-inner">
 
-    {{#author}}
+    {{#primary_author}}
         {{!-- Journalist Profile Header --}}
         <article class="author-profile" itemscope itemtype="http://schema.org/Person">
             <div class="author-profile-header">
@@ -52,7 +52,7 @@
                         {{/if}}
 
                         {{#if twitter}}
-                            <a href="{{twitter_url}}"
+                            <a href="{{social_url type="twitter"}}"
                                target="_blank"
                                rel="noopener"
                                class="author-contact-link"
@@ -62,7 +62,7 @@
                         {{/if}}
 
                         {{#if facebook}}
-                            <a href="{{facebook_url}}"
+                            <a href="{{social_url type="facebook"}}"
                                target="_blank"
                                rel="noopener"
                                class="author-contact-link"
@@ -80,19 +80,19 @@
                     <span class="author-stat-number">{{count.posts}}</span>
                     <span class="author-stat-label">Total Articles</span>
                 </div>
-                {{#get "posts" filter="author:{{slug}}+tag:investigation" limit="1"}}
+                {{#get "posts" filter="authors:{{slug}}+tag:investigation" limit="1"}}
                     <div class="author-stat">
                         <span class="author-stat-number">{{meta.pagination.total}}</span>
                         <span class="author-stat-label">Investigations</span>
                     </div>
                 {{/get}}
-                {{#get "posts" filter="author:{{slug}}+tag:profile" limit="1"}}
+                {{#get "posts" filter="authors:{{slug}}+tag:profile" limit="1"}}
                     <div class="author-stat">
                         <span class="author-stat-number">{{meta.pagination.total}}</span>
                         <span class="author-stat-label">Profiles</span>
                     </div>
                 {{/get}}
-                {{#get "posts" filter="author:{{slug}}+tag:breaking" limit="1"}}
+                {{#get "posts" filter="authors:{{slug}}+tag:breaking" limit="1"}}
                     <div class="author-stat">
                         <span class="author-stat-number">{{meta.pagination.total}}</span>
                         <span class="author-stat-label">Breaking News</span>
@@ -100,10 +100,10 @@
                 {{/get}}
             </div>
         </article>
-    {{/author}}
+    {{/primary_author}}
 
     {{!-- Latest Investigations by Author --}}
-    {{#get "posts" filter="author:{{author.slug}}+tag:investigation" limit="3" include="tags"}}
+    {{#get "posts" filter="authors:{{primary_author.slug}}+tag:investigation" limit="3" include="tags"}}
         {{#if posts}}
             <section class="author-section">
                 <header class="section-header">
@@ -111,7 +111,7 @@
                         <span class="section-icon">🔍</span>
                         Investigations
                     </h2>
-                    <a href="/author/{{../author.slug}}/tag/investigation/" class="section-link">View all</a>
+                    <a href="/author/{{../primary_author.slug}}/tag/investigation/" class="section-link">View all</a>
                 </header>
 
                 <div class="story-grid">
@@ -140,7 +140,7 @@
     {{/get}}
 
     {{!-- Latest Profiles by Author --}}
-    {{#get "posts" filter="author:{{author.slug}}+tag:profile" limit="3" include="tags"}}
+    {{#get "posts" filter="authors:{{primary_author.slug}}+tag:profile" limit="3" include="tags"}}
         {{#if posts}}
             <section class="author-section">
                 <header class="section-header">
@@ -148,7 +148,7 @@
                         <span class="section-icon">👤</span>
                         Profiles
                     </h2>
-                    <a href="/author/{{../author.slug}}/tag/profile/" class="section-link">View all</a>
+                    <a href="/author/{{../primary_author.slug}}/tag/profile/" class="section-link">View all</a>
                 </header>
 
                 <div class="story-grid">
@@ -179,14 +179,14 @@
     {{!-- All Stories by Author --}}
     <section class="author-section">
         <header class="section-header">
-            <h2 class="section-title">All Stories by {{author.name}}</h2>
+            <h2 class="section-title">All Stories by {{primary_author.name}}</h2>
             <div class="author-filter">
                 <span class="author-filter-label">Filter:</span>
-                <a href="{{author.url}}" class="category-pill active">All</a>
-                <a href="{{author.url}}tag/investigation/" class="category-pill" data-category="investigation">🔍 Investigations</a>
-                <a href="{{author.url}}tag/breaking/" class="category-pill" data-category="breaking">🚨 Breaking</a>
-                <a href="{{author.url}}tag/profile/" class="category-pill" data-category="profile">👤 Profiles</a>
-                <a href="{{author.url}}tag/analysis/" class="category-pill" data-category="analysis">📊 Analysis</a>
+                <a href="{{primary_author.url}}" class="category-pill active">All</a>
+                <a href="{{primary_author.url}}tag/investigation/" class="category-pill" data-category="investigation">🔍 Investigations</a>
+                <a href="{{primary_author.url}}tag/breaking/" class="category-pill" data-category="breaking">🚨 Breaking</a>
+                <a href="{{primary_author.url}}tag/profile/" class="category-pill" data-category="profile">👤 Profiles</a>
+                <a href="{{primary_author.url}}tag/analysis/" class="category-pill" data-category="analysis">📊 Analysis</a>
             </div>
         </header>
 
