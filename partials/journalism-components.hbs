@@ -1,0 +1,242 @@
+{{!-- partials/journalism-components.hbs --}}
+{{!-- By Nic Weyand! --}}
+{{!-- Reusable journalism components for Greymuzzle theme --}}
+
+{{!--
+    KEY FINDINGS BOX
+    Usage: {{> journalism-components type="key-findings" items=findings}}
+--}}
+{{#if (match type "=" "key-findings")}}
+<aside class="key-findings" role="complementary" aria-label="Key findings">
+    <h3 class="key-findings-title">Key Findings</h3>
+    <ul class="key-findings-list">
+        {{#foreach items}}
+            <li>{{this}}</li>
+        {{/foreach}}
+    </ul>
+</aside>
+{{/if}}
+
+{{!--
+    METHODOLOGY BOX
+    Usage: {{> journalism-components type="methodology" title="Research Methods" content=methodContent}}
+--}}
+{{#if (match type "=" "methodology")}}
+<aside class="methodology-box" role="complementary" aria-label="Research methodology">
+    <div class="methodology-box-header">
+        <h3 class="methodology-box-title">{{#if title}}{{title}}{{else}}Methodology{{/if}}</h3>
+        <button class="methodology-box-toggle" aria-expanded="false">Show Methodology</button>
+    </div>
+    <div class="methodology-box-content">
+        {{{content}}}
+    </div>
+</aside>
+{{/if}}
+
+{{!--
+    TIMELINE ITEM
+    Usage: {{> journalism-components type="timeline-item" date="Jan 2024" title="Event" description="What happened"}}
+--}}
+{{#if (match type "=" "timeline-item")}}
+<div class="timeline-item">
+    <div class="timeline-date">
+        <span class="timeline-date-text">{{date}}</span>
+    </div>
+    <div class="timeline-marker" aria-hidden="true"></div>
+    <div class="timeline-content">
+        <h3>{{title}}</h3>
+        <p>{{description}}</p>
+    </div>
+</div>
+{{/if}}
+
+{{!--
+    CONTENT WARNING
+    Usage: {{> journalism-components type="content-warning" topics=warningTopics description="Warning text" content=hiddenContent}}
+--}}
+{{#if (match type "=" "content-warning")}}
+<aside class="content-warning" role="alert" aria-label="Content warning">
+    <div class="content-warning-header">
+        <span class="content-warning-icon" aria-hidden="true">⚠️</span>
+        <h3 class="content-warning-title">Content Warning</h3>
+    </div>
+
+    <p class="content-warning-description">
+        {{#if description}}
+            {{description}}
+        {{else}}
+            This article contains sensitive content that may be distressing to some readers.
+        {{/if}}
+    </p>
+
+    {{#if topics}}
+    <div class="content-warning-topics">
+        {{#foreach topics}}
+            <span class="warning-tag warning-tag-{{slug}}">{{name}}</span>
+        {{/foreach}}
+    </div>
+    {{/if}}
+
+    <button class="content-warning-button" aria-expanded="false">
+        Show Content
+    </button>
+
+    <div class="content-warning-content">
+        {{{content}}}
+    </div>
+
+    {{#if resources}}
+    <div class="content-warning-resources">
+        <h4 class="content-warning-resources-title">Support Resources</h4>
+        <ul class="content-warning-resources-list">
+            {{#foreach resources}}
+                <li><a href="{{url}}" target="_blank" rel="noopener noreferrer">{{name}}</a></li>
+            {{/foreach}}
+        </ul>
+    </div>
+    {{/if}}
+</aside>
+{{/if}}
+
+{{!--
+    FACT CHECK BOX
+    Usage: {{> journalism-components type="fact-check" claim="The claim" verdict="true" explanation="Why it's true"}}
+--}}
+{{#if (match type "=" "fact-check")}}
+<aside class="fact-check fact-check-{{verdict}}" role="complementary" aria-label="Fact check">
+    <div class="fact-check-header">
+        <span class="fact-check-icon" aria-hidden="true"></span>
+        <h3 class="fact-check-title">Fact Check</h3>
+    </div>
+
+    <div class="fact-check-claim">
+        <strong>Claim:</strong> {{claim}}
+    </div>
+
+    <div class="fact-check-verdict">
+        {{#if (match verdict "=" "true")}}TRUE{{/if}}
+        {{#if (match verdict "=" "false")}}FALSE{{/if}}
+        {{#if (match verdict "=" "misleading")}}MISLEADING{{/if}}
+        {{#if (match verdict "=" "unverified")}}UNVERIFIED{{/if}}
+        {{#if (match verdict "=" "mostly-true")}}MOSTLY TRUE{{/if}}
+        {{#if (match verdict "=" "mostly-false")}}MOSTLY FALSE{{/if}}
+    </div>
+
+    <div class="fact-check-explanation">
+        {{{explanation}}}
+    </div>
+
+    {{#if sources}}
+    <div class="fact-check-sources">
+        <div class="fact-check-sources-title">Sources:</div>
+        <ul class="fact-check-sources-list">
+            {{#foreach sources}}
+                <li><a href="{{url}}" target="_blank" rel="noopener noreferrer">{{name}}</a></li>
+            {{/foreach}}
+        </ul>
+    </div>
+    {{/if}}
+</aside>
+{{/if}}
+
+{{!--
+    INVESTIGATION STATUS BADGE
+    Usage: {{> journalism-components type="status-badge" status="ongoing"}}
+--}}
+{{#if (match type "=" "status-badge")}}
+<span class="investigation-status investigation-status-{{status}}">
+    <span class="investigation-status-icon" aria-hidden="true"></span>
+    <span>
+        {{#if (match status "=" "ongoing")}}Investigation Ongoing{{/if}}
+        {{#if (match status "=" "concluded")}}Investigation Concluded{{/if}}
+        {{#if (match status "=" "updated")}}Recently Updated{{/if}}
+        {{#if (match status "=" "breaking")}}Breaking News{{/if}}
+        {{#if (match status "=" "developing")}}Developing Story{{/if}}
+    </span>
+</span>
+{{/if}}
+
+{{!--
+    SOURCE DOCUMENT EMBED
+    Usage: {{> journalism-components type="source-document" title="Document Title" url="PDF URL"}}
+--}}
+{{#if (match type "=" "source-document")}}
+<div class="source-document">
+    <div class="source-document-header">
+        <h4 class="source-document-title">{{title}}</h4>
+        <button class="source-document-fullscreen" data-fullscreen-pdf aria-label="View fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+            </svg>
+        </button>
+    </div>
+    <embed class="source-document-embed" src="{{url}}" type="application/pdf" width="100%" height="600px">
+</div>
+{{/if}}
+
+{{!--
+    PULL QUOTE
+    Usage: {{> journalism-components type="pull-quote" quote="The quote" attribution="Person Name" role="Their role"}}
+--}}
+{{#if (match type "=" "pull-quote")}}
+<blockquote class="pull-quote">
+    <p class="pull-quote-text">{{quote}}</p>
+    {{#if attribution}}
+    <footer class="pull-quote-footer">
+        <cite class="pull-quote-attribution">
+            <strong>{{attribution}}</strong>
+            {{#if role}}<span class="pull-quote-role"> — {{role}}</span>{{/if}}
+        </cite>
+    </footer>
+    {{/if}}
+</blockquote>
+{{/if}}
+
+{{!--
+    CORRECTION NOTICE
+    Usage: {{> journalism-components type="correction" date="2024-01-15" content="What was corrected"}}
+--}}
+{{#if (match type "=" "correction")}}
+<aside class="correction-notice" role="note" aria-label="Correction">
+    <div class="correction-notice-header">
+        <span class="correction-notice-icon" aria-hidden="true">✏️</span>
+        <h4 class="correction-notice-title">Correction</h4>
+        {{#if date}}<time class="correction-notice-date" datetime="{{date}}">{{date format="DD MMM YYYY"}}</time>{{/if}}
+    </div>
+    <div class="correction-notice-content">
+        {{{content}}}
+    </div>
+</aside>
+{{/if}}
+
+{{!--
+    UPDATE NOTICE
+    Usage: {{> journalism-components type="update" date="2024-01-15" content="What was updated"}}
+--}}
+{{#if (match type "=" "update")}}
+<aside class="update-notice" role="note" aria-label="Update">
+    <div class="update-notice-header">
+        <span class="update-notice-icon" aria-hidden="true">🔄</span>
+        <h4 class="update-notice-title">Update</h4>
+        {{#if date}}<time class="update-notice-date" datetime="{{date}}">{{date format="DD MMM YYYY"}}</time>{{/if}}
+    </div>
+    <div class="update-notice-content">
+        {{{content}}}
+    </div>
+</aside>
+{{/if}}
+
+{{!--
+    EDITOR'S NOTE
+    Usage: {{> journalism-components type="editors-note" content="Note content"}}
+--}}
+{{#if (match type "=" "editors-note")}}
+<aside class="editors-note" role="note" aria-label="Editor's note">
+    <div class="editors-note-header">
+        <h4 class="editors-note-title">Editor's Note</h4>
+    </div>
+    <div class="editors-note-content">
+        {{{content}}}
+    </div>
+</aside>
+{{/if}}

@@ -1,0 +1,129 @@
+{{!-- partials/species-tag.hbs --}}
+{{!-- By Nic Weyand! --}}
+{{!-- Display species representation metadata in articles --}}
+
+{{!--
+    USAGE:
+    Add custom fields to your Ghost posts for species representation:
+    - species_mentioned (comma-separated list)
+    - species_primary (main species featured)
+
+    Then use this partial in your post template:
+    {{> species-tag}}
+--}}
+
+{{#if @custom.show_species_tags}}
+    {{#if species_mentioned}}
+    <div class="species-tags" role="complementary" aria-label="Species represented in this article">
+        <div class="species-tags-header">Species Represented:</div>
+
+        {{!-- Parse comma-separated species list --}}
+        {{#foreach (split species_mentioned ",")}}
+            {{#match this "~" "wolf|wolves"}}
+                <span class="species-badge species-wolf">
+                    <span class="species-icon" aria-hidden="true">🐺</span>
+                    <span>Wolf</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "fox|foxes"}}
+                <span class="species-badge species-fox">
+                    <span class="species-icon" aria-hidden="true">🦊</span>
+                    <span>Fox</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "cat|cats|feline"}}
+                <span class="species-badge species-cat">
+                    <span class="species-icon" aria-hidden="true">🐱</span>
+                    <span>Cat</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "dog|dogs|canine"}}
+                <span class="species-badge species-dog">
+                    <span class="species-icon" aria-hidden="true">🐶</span>
+                    <span>Dog</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "dragon|dragons"}}
+                <span class="species-badge species-dragon">
+                    <span class="species-icon" aria-hidden="true">🐉</span>
+                    <span>Dragon</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "rabbit|bunny|rabbits"}}
+                <span class="species-badge species-rabbit">
+                    <span class="species-icon" aria-hidden="true">🐰</span>
+                    <span>Rabbit</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "bird|avian|birds"}}
+                <span class="species-badge species-bird">
+                    <span class="species-icon" aria-hidden="true">🐦</span>
+                    <span>Bird</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "deer|cervine"}}
+                <span class="species-badge species-deer">
+                    <span class="species-icon" aria-hidden="true">🦌</span>
+                    <span>Deer</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "protogen"}}
+                <span class="species-badge species-protogen">
+                    <span class="species-icon" aria-hidden="true">🤖</span>
+                    <span>Protogen</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "sergal"}}
+                <span class="species-badge species-sergal">
+                    <span class="species-icon" aria-hidden="true">🦎</span>
+                    <span>Sergal</span>
+                </span>
+            {{/match}}
+
+            {{#match this "~" "hybrid"}}
+                <span class="species-badge species-hybrid">
+                    <span class="species-icon" aria-hidden="true">🔀</span>
+                    <span>Hybrid</span>
+                </span>
+            {{/match}}
+        {{/foreach}}
+    </div>
+    {{/if}}
+{{/if}}
+
+{{!--
+    AUTHOR FURSONA INFO
+    Add to author custom fields:
+    - fursona_species
+    - fursona_name
+--}}
+{{#if primary_author.fursona_species}}
+<div class="author-fursona">
+    <span class="author-fursona-icon" aria-hidden="true">
+        {{!-- Icon based on species --}}
+        {{#match primary_author.fursona_species "~" "wolf"}}🐺{{/match}}
+        {{#match primary_author.fursona_species "~" "fox"}}🦊{{/match}}
+        {{#match primary_author.fursona_species "~" "cat"}}🐱{{/match}}
+        {{#match primary_author.fursona_species "~" "dog"}}🐶{{/match}}
+        {{#match primary_author.fursona_species "~" "dragon"}}🐉{{/match}}
+        {{#match primary_author.fursona_species "~" "rabbit"}}🐰{{/match}}
+        {{#match primary_author.fursona_species "~" "bird"}}🐦{{/match}}
+        {{#match primary_author.fursona_species "~" "deer"}}🦌{{/match}}
+    </span>
+    <div class="author-fursona-details">
+        <div class="author-fursona-species">{{primary_author.fursona_species}}</div>
+        {{#if primary_author.fursona_name}}
+            <div class="author-fursona-name">"{{primary_author.fursona_name}}"</div>
+        {{/if}}
+    </div>
+</div>
+{{/if}}

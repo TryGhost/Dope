@@ -1,0 +1,419 @@
+/* assets/css/furry/species-metadata.css */
+/* By Nic Weyand! */
+/* ==========================================================================
+   Species Metadata System
+   Track and display species representation in furry journalism
+   ========================================================================== */
+
+/* ===== Species Tag Container ===== */
+
+.species-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-6) 0;
+    padding: var(--space-4);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-primary);
+}
+
+.species-tags-header {
+    width: 100%;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+}
+
+/* ===== Individual Species Badge ===== */
+
+.species-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.species-badge:hover,
+.species-badge:focus {
+    background: var(--brand-primary);
+    color: var(--color-text-primary);
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.species-icon {
+    font-size: var(--text-base);
+    line-height: 1;
+}
+
+/* ===== Species-Specific Colors ===== */
+
+.species-wolf {
+    background: linear-gradient(135deg, rgba(107, 114, 128, 0.2), rgba(75, 85, 99, 0.2));
+}
+
+.species-fox {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 88, 12, 0.2));
+}
+
+.species-cat {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(147, 51, 234, 0.2));
+}
+
+.species-dog {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(202, 138, 4, 0.2));
+}
+
+.species-dragon {
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(185, 28, 28, 0.2));
+}
+
+.species-rabbit {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(219, 39, 119, 0.2));
+}
+
+.species-bird {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+}
+
+.species-deer {
+    background: linear-gradient(135deg, rgba(180, 83, 9, 0.2), rgba(146, 64, 14, 0.2));
+}
+
+.species-hybrid {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2));
+}
+
+.species-protogen {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(6, 182, 212, 0.2));
+}
+
+.species-sergal {
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(20, 184, 166, 0.2));
+}
+
+.species-other {
+    background: linear-gradient(135deg, rgba(156, 163, 175, 0.2), rgba(107, 114, 128, 0.2));
+}
+
+/* ===== Species Statistics Box ===== */
+
+.species-statistics {
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin: var(--space-12) 0;
+}
+
+.species-statistics-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.species-statistics-title {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-black);
+    margin: 0 0 var(--space-3);
+    color: var(--brand-primary);
+}
+
+.species-statistics-subtitle {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.species-statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+}
+
+.species-stat-item {
+    text-align: center;
+    padding: var(--space-6);
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-secondary);
+    transition: all var(--transition-fast);
+}
+
+.species-stat-item:hover {
+    border-color: var(--brand-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.species-stat-icon {
+    font-size: var(--text-5xl);
+    margin-bottom: var(--space-3);
+}
+
+.species-stat-name {
+    display: block;
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.species-stat-count {
+    display: block;
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    color: var(--brand-primary);
+    margin-bottom: var(--space-2);
+}
+
+.species-stat-label {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ===== Species Representation Chart ===== */
+
+.species-representation {
+    margin: var(--space-12) 0;
+}
+
+.species-representation-title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-6);
+    text-align: center;
+}
+
+.species-representation-bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.species-bar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.species-bar-label {
+    min-width: 120px;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.species-bar-container {
+    flex: 1;
+    height: 32px;
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    position: relative;
+}
+
+.species-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+    border-radius: var(--radius-full);
+    transition: width 1s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--space-3);
+}
+
+.species-bar-percentage {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Species Filter (for archive pages) ===== */
+
+.species-filter {
+    background: var(--color-bg-secondary);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+}
+
+.species-filter-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-4);
+}
+
+.species-filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.species-filter-button {
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.species-filter-button:hover,
+.species-filter-button:focus {
+    background: var(--brand-primary);
+    color: white;
+    border-color: var(--brand-primary);
+}
+
+.species-filter-button.active {
+    background: var(--brand-primary);
+    color: white;
+    border-color: var(--brand-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ===== Fursona Author Box Enhancement ===== */
+
+.author-fursona {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: linear-gradient(135deg,
+        rgba(var(--brand-primary-rgb, 212, 175, 55), 0.1),
+        rgba(var(--brand-secondary-rgb, 243, 129, 129), 0.1));
+    border-radius: var(--radius-md);
+    margin-top: var(--space-4);
+}
+
+.author-fursona-icon {
+    font-size: var(--text-3xl);
+}
+
+.author-fursona-details {
+    flex: 1;
+}
+
+.author-fursona-species {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--brand-primary);
+}
+
+.author-fursona-name {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    font-style: italic;
+}
+
+/* ===== Diversity Indicator ===== */
+
+.species-diversity-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-success);
+    color: white;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.species-diversity-indicator-low {
+    background: var(--color-warning);
+}
+
+.species-diversity-indicator-medium {
+    background: var(--brand-primary);
+}
+
+.species-diversity-indicator-high {
+    background: var(--color-success);
+}
+
+/* ===== Mobile Responsive ===== */
+
+@media (max-width: 768px) {
+    .species-tags {
+        padding: var(--space-3);
+    }
+
+    .species-statistics {
+        padding: var(--space-6);
+    }
+
+    .species-statistics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
+    }
+
+    .species-stat-item {
+        padding: var(--space-4);
+    }
+
+    .species-stat-icon {
+        font-size: var(--text-4xl);
+    }
+
+    .species-stat-count {
+        font-size: var(--text-2xl);
+    }
+
+    .species-bar-label {
+        min-width: 80px;
+        font-size: var(--text-xs);
+    }
+}
+
+/* ===== Print Styles ===== */
+
+@media print {
+    .species-filter,
+    .species-filter-button {
+        display: none;
+    }
+
+    .species-statistics {
+        break-inside: avoid;
+    }
+}
+
+/* ===== Accessibility ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    .species-badge,
+    .species-stat-item,
+    .species-bar-fill,
+    .species-filter-button {
+        transition: none;
+    }
+
+    .species-badge:hover,
+    .species-stat-item:hover {
+        transform: none;
+    }
+}
